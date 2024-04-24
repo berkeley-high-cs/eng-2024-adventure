@@ -4,16 +4,11 @@ import java.util.List;
 class Main {
 
     private static final Console console = System.console();
-
-    public static String askChoices(String message, List<String> responses, boolean printResponses) {
-        System.out.println(message + "\n" + (printResponses ? responses.toString() : ""));
-        while (true) {
-            String answer = ask("");
-            if (responses.contains(answer)) {
-                return answer;
-            }
-            else {
-                System.out.println("Invalid response!");
+    
+    private static void takeAction(String action) {
+        for (Command command : Command.AvailableCommands()) {
+            if (command.ActionIsThisCommand(action)) {
+                command.TakeAction(action);
             }
         }
     }
@@ -24,6 +19,7 @@ class Main {
     }
 
     public static void main(String[] args) {
-
+        String action = ask("What do you want to do?");
+        takeAction(action);
     }
 }
