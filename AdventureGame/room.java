@@ -16,7 +16,7 @@ public class room {
         room hu = new room(boy,"h",1,1,1,1,1);
         System.out.println(hu.grid[1][1].getdis());
     }*/
-    public room(item[][] Grid, String Distckripshon, int num, int botem, int left, int right, int top){
+    public room(IItem[][] Grid, String Distckripshon, int num, int botem, int left, int right, int top){
         grid = Grid;
         roomDistckripshon = Distckripshon;
         roomNum = num;
