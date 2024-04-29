@@ -3,7 +3,13 @@ package src.main.java.org.adventure;
 import java.io.Console;
 
 public class AdventureGame {
-    final Console console = System.console();
+
+    public AdventureGame() {
+        String action = ask("What would you like to do?");
+        takeAction(action);
+    }
+
+    private static final Console console = System.console();
     
     private static void takeAction(String action) {
         for (Command command : Command.AvailableCommands()) {
