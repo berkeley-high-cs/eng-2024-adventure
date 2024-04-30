@@ -3,7 +3,7 @@ import java.io.*;
 import java.util.*;
 
 public class Room {
-    private item[][] grid;
+    private IItem[][] grid;
     private String roomDescription;
     private int roomNum;
     private int bottomDoor;
@@ -20,9 +20,9 @@ public class Room {
      * System.out.println(hu.grid[1][1].getdis());
      * }
      */
-    public room(item[][] Grid, String description, int num, int bottom, int left, int right, int top){
-        grid = Grid;
-        roomDistckripshon = description;
+    public room(IItem[][] grid, String description, int num, int bottom, int left, int right, int top){
+        this.grid = grid;
+        this.roomDescription = description;
         roomNum = num;
         bottomDoor = bottom;
         leftDoor = left;
@@ -60,11 +60,11 @@ public class Room {
         return grid;
     }
 
-    public void changeLayout(item thing, int x, int y) {
+    public void changeLayout(IItem thing, int x, int y) {
         grid[x][y] = thing;
     }
 
-    public void changeThing(item thing, item newThing) {
+    public void changeThing(IItem thing, IItem newThing) {
         for (int s = 0; s < 3; s++) {
             for (int t = 0; s < 3; t++) {
                 if (grid[s][t] == thing) {
@@ -74,7 +74,7 @@ public class Room {
         }
     }
 
-    public void changeThing(item thing) {
+    public void changeThing(IItem thing) {
         for (int s = 0; s < 3; s++) {
             for (int t = 0; s < 3; t++) {
                 if (grid[s][t] == thing) {
