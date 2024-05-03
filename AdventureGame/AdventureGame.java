@@ -4,8 +4,11 @@ import java.io.Console;
 
 public class AdventureGame {
 
+    public static Player player;
+
     public AdventureGame() {
         String action = ask("What would you like to do?");
+        player = new Player(null, this);
         takeAction(action);
     }
 
