@@ -1,34 +1,25 @@
 
-import java.io.*;
-import java.util.*;
+import java.util.HashMap;
+import java.util.Map;
 
 public class Room {
     private IItem[][] grid;
     private String roomDescription;
-    private int roomNum;
-    private int bottomDoor;
-    private int leftDoor;
-    private int rightDoor;
-    private int topDoor;
+    private String codeName;
+    private HashMap<String, Room> passages;
 
-    /*
-     * public static void main(String[] args){
-     * item[][] boy = new item[2][2];
-     * //this.room(boy,"h",1,1,1,1,1);
-     * //boy[1][1] = "boy";
-     * room hu = new room(boy,"h",1,1,1,1,1);
-     * System.out.println(hu.grid[1][1].getdis());
-     * }
-     */
-    public room(IItem[][] grid, String description, int num, int bottom, int left, int right, int top){
+    public Room(String codeName, String description, IItem[][] grid){
+        this.codeName = codeName;
         this.grid = grid;
         this.roomDescription = description;
-        roomNum = num;
-        bottomDoor = bottom;
-        leftDoor = left;
-        rightDoor = right;
-        topDoor = top;
     }
+
+    public void addPassage(String name, Room room) {
+        passages.put(name,room);
+    }
+    public List getPassageNames() { return passages.keySet(); }
+    public Room getConnectingRoom(String passageName) { return passages.get(passageName); }
+
 
     public String getDescription() {
         String list = "";
@@ -37,26 +28,10 @@ public class Room {
                 list += " " + grid[i][s].description();
             }
         }
-        return roomDistckripshon + " " + list;
+        return roomDescription + " " + list;
     }
 
-    public int getBottom() {
-        return bottomDoor;
-    }
-
-    public int getLeft() {
-        return leftDoor;
-    }
-
-    public int getRight() {
-        return rightDoor;
-    }
-
-    public int getTop() {
-        return topDoor;
-    }
-
-    public item[][] getLayout() {
+    public IItem[][] getLayout() {
         return grid;
     }
 
@@ -83,5 +58,7 @@ public class Room {
             }
         }
     }
+
+    public String getName() { return codeName; }
 
 }
