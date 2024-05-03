@@ -1,8 +1,16 @@
+package src.main.java;
 
 
 import java.io.Console;
+import src.main.java.AdventureGame;
+import src.main.java.GameMap;
+import src.main.java.Command;
 
 public class AdventureGame {
+
+
+    private GameMap g = new GameMap();
+
 
     public AdventureGame() {
         String action = ask("What would you like to do?");
@@ -12,10 +20,17 @@ public class AdventureGame {
     private static final Console console = System.console();
     
     private static void takeAction(String action) {
+        boolean taken = false;
         for (Command command : Command.AvailableCommands()) {
             if (command.ActionIsThisCommand(action)) {
                 command.TakeAction(action);
-            }
+                taken = true;
+            } 
+        }
+        if(!taken){
+            System.out.println("Sorry, we don't recognize this command. Try:");
+            Command.AvailableCommands().forEach(s -> System.out.print(s + ", "));;
+            System.out.println();
         }
     }
 

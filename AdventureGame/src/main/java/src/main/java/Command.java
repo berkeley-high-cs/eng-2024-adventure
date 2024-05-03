@@ -1,3 +1,4 @@
+package src.main.java;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -32,8 +33,8 @@ public record Command(String name, String[] keywords) {
     // and entities within that room
     // including the player's inventory for any other things they could do, in
     // addition to the base 5
-    public static ArrayList<Command> AvailableCommands() {
-        ArrayList<Command> available = (ArrayList<Command>) Arrays.asList(BASECOMMANDS);
+    public static List<Command> AvailableCommands() {
+        List<Command> available = Arrays.asList(BASECOMMANDS);
         return available;
     }
 
@@ -94,5 +95,8 @@ public record Command(String name, String[] keywords) {
     // came
     private void ActionReturn(String action) {
 
+    }
+    public String toString(){
+        return name;
     }
 }

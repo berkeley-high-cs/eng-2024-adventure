@@ -1,3 +1,4 @@
+package src.main.java;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.ArrayList;
@@ -12,15 +13,16 @@ public class Room {
     private IItem[][] grid;
     private String roomDescription;
     private String codeName;
-    private ArrayList<Passage> passages;
+    private List<Passage> passages;
     private String passageDescription;
 
-    public Room(String codeName, String passageDescription, String description){
+    public Room(String codeName, String passageDescription, String description, List<Passage> p){
         this.codeName = codeName;
         this.roomDescription = description;
         this.passageDescription = passageDescription;
         passages = new ArrayList<>();
         grid = new IItem[3][3];
+        passages = p;
     }
 
     public void addPassage(Passage passage) {
