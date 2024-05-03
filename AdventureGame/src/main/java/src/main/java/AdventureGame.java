@@ -12,8 +12,11 @@ public class AdventureGame {
     private GameMap g = new GameMap();
 
 
+    public static Player player;
+
     public AdventureGame() {
         String action = ask("What would you like to do?");
+        player = new Player(null, this);
         takeAction(action);
     }
 
