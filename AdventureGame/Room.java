@@ -1,35 +1,45 @@
-
 import java.util.HashMap;
 import java.util.Map;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.*;
 
 public class Room {
+
+    //codeName should never be shown to the player at all
+    //passageDescription is used for any things that connect to this room that the player can see through, e.g. a broken window (so like, it would say There is a broken window, and
+    // you can see [passageDescription] on the other side.)
     private IItem[][] grid;
     private String roomDescription;
     private String codeName;
-    private HashMap<String, Room> passages;
+    private ArrayList<Passage> passages;
+    private String passageDescription;
 
-    public Room(String codeName, String description, IItem[][] grid){
+    public Room(String codeName, String passageDescription, String description){
         this.codeName = codeName;
-        this.grid = grid;
         this.roomDescription = description;
+        this.passageDescription = passageDescription;
+        passages = new ArrayList<>();
+        grid = new IItem[3][3];
     }
 
-    public void addPassage(String name, Room room) {
-        passages.put(name,room);
+    public void addPassage(Passage passage) {
+        passages.add(passage);
     }
-    public List getPassageNames() { return passages.keySet(); }
-    public Room getConnectingRoom(String passageName) { return passages.get(passageName); }
+    public List<Passage> getPassages() { 
+        return passages;
+    }
+    public Room getConnectingRoom(String passageName) { 
+        Passage passage = passages.stream().filter(p -> p.name().toLowerCase().equals(passageName.toLowerCase())).findFirst().get();
+        return passage.r1() == this ? passage.r2() : passage.r1();
+    }
 
 
     public String getDescription() {
-        String list = "";
-        for (i = 0; i < 3; i++) {
-            for (s = 0; s < 3; s++) {
-                list += " " + grid[i][s].description();
-            }
-        }
-        return roomDescription + " " + list;
+        return roomDescription;
     }
+
+    public String getPassageDescription() { return passageDescription; }
 
     public IItem[][] getLayout() {
         return grid;

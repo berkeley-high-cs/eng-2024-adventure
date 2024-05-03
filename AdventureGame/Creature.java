@@ -1,4 +1,4 @@
-package src.main.java.org.adventure;
+
 
 public class Creature implements IEntity {
 
@@ -16,8 +16,8 @@ public class Creature implements IEntity {
 
     public double getHitpoints() { return this.hitpoints; }
     public boolean isHostile() { return this.isHostile; }
-    public String getName() { return this.name; }
-    public String getDescription() { return this.description; }
+    public String name() { return this.name; }
+    public String description() { return this.description; }
     public void setHitpoints(double hitpoints) { this.hitpoints = hitpoints; }
 
 }

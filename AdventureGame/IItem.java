@@ -1,4 +1,3 @@
-package src.main.java.org.adventure;
 
 public interface IItem {
     
