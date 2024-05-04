@@ -1,8 +1,10 @@
-
-
+package src.main.java;
 import java.io.Console;
 
 public class AdventureGame {
+
+    private GameMap g = new GameMap();
+
 
     public static Player player;
 
@@ -15,10 +17,17 @@ public class AdventureGame {
     private static final Console console = System.console();
     
     private static void takeAction(String action) {
+        boolean taken = false;
         for (Command command : Command.AvailableCommands()) {
             if (command.ActionIsThisCommand(action)) {
                 command.TakeAction(action);
-            }
+                taken = true;
+            } 
+        }
+        if(!taken){
+            System.out.println("Sorry, we don't recognize this command. Try:");
+            Command.AvailableCommands().forEach(s -> System.out.print(s + ", "));;
+            System.out.println();
         }
     }
 
