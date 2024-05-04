@@ -1,4 +1,5 @@
-package src.main.java;
+package net.berkeley.students.eng2024;
+
 import java.io.Console;
 
 public class AdventureGame {
