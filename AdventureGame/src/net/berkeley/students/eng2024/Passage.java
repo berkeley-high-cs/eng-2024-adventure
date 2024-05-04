@@ -1,4 +1,5 @@
-package src.main.java;
+package net.berkeley.students.eng2024;
+
 
 public record Passage(String name, String description, Room r1, Room r2, boolean accessible) {
 
