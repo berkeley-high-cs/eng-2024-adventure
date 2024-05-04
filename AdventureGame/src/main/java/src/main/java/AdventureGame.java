@@ -1,13 +1,7 @@
 package src.main.java;
-
-
 import java.io.Console;
-import src.main.java.AdventureGame;
-import src.main.java.GameMap;
-import src.main.java.Command;
 
 public class AdventureGame {
-
 
     private GameMap g = new GameMap();
 
