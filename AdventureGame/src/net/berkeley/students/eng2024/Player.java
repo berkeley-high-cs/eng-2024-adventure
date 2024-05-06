@@ -15,12 +15,11 @@ public class Player {
     private ArrayList<Room> visitedRooms;
 
     public Player(Room startRoom, AdventureGame adventureGame) {
-        this.currentRoom = startRoom;
         this.adventureGame = adventureGame;
         this.hitpoints = maxHitpoints;
         items = new ArrayList<>();
         visitedRooms = new ArrayList<>();
-        visitedRooms.add(currentRoom);
+        moveToRoom(startRoom);
     }
 
     public Room getRoom() {
@@ -37,6 +36,8 @@ public class Player {
             visitedRooms.remove(room);
         }
         visitedRooms.add(room);
+
+        AdventureGame.notify("info", room.describe());
     }
 
     public List<Room> getVisitedRooms() {

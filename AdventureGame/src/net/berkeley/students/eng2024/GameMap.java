@@ -1,9 +1,21 @@
 package net.berkeley.students.eng2024;
 
-public class GameMap {
-    // public Room(String codeName, String passageDescription, String description){
+import java.util.ArrayList;
 
-    private Room[] rooms = { new Room("starter", "two passages to the left", "very empty") };
+public class GameMap {
+    //reference for rooms:
+    //codeName: never shown to the player, quick small description of the room for identification through strings in the code
+    //passageDescription: short description of the room through a passage. for example, in an adjacent room it could say "There is a broken window, and you "
+    //can see [passageDescription] beyond it."
+    //description: the actual long text that describes the room itself, without all the passages or items or creatures
+
+    private Room[] rooms = { 
+        new Room("starterRoom", "the starter room", "it's the starter room!", new ArrayList<>()),
+        new Room("otherRoom", "the other room", "very empty 2", new ArrayList<>())
+    };
+    private Passage[] passages = {
+        new Passage("window", "a window", rooms[0], rooms[1], true)
+    };
 
     public GameMap() {
     }
