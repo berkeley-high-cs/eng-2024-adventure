@@ -9,4 +9,8 @@ public interface IItem {
 
     default void pickup(Player p){}
 
+    public String description();
+
+    public String name();
+
 }

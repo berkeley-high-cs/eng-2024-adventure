@@ -54,19 +54,23 @@ public record Command(String name, String[] keywords) {
     // if an extra command is added (e.g. unlocking a door) make sure to add a case
     // for it here!! does not necessarily need to be a method of this Record
     public void TakeAction(String action) {
+        int keyIndex = keywordIndex(keywords, action);
+        //if no move keyword was inputted, return
+        if (keyIndex == -1) { return; }
+        String subAction = action.substring(keyIndex);
         switch (name) {
             case "attack":
-                ActionAttack(action);
+                ActionAttack(subAction);
             case "pickup":
-                ActionPickup(action);
+                ActionPickup(subAction);
             case "drop":
-                ActionDrop(action);
+                ActionDrop(subAction);
             case "move":
-                ActionMove(action);
+                ActionMove(subAction);
             case "return":
-                ActionReturn(action);
+                ActionReturn(subAction);
             case "inspect":
-                ActionInspect(action);
+                ActionInspect(subAction);
             default:
                 break;
         }
@@ -98,7 +102,24 @@ public record Command(String name, String[] keywords) {
     // if no additional text is provided, drops the most recently picked up item
     // otherwise user may specify an item in their inventory
     private void ActionDrop(String action) {
-
+        Player player = AdventureGame.player;
+        IItem itemToDrop = null;
+        for (IItem item : player.getItems()) {
+            if (action.contains(item.name())) {
+                itemToDrop = item;
+                break;
+            }
+        }
+        if (itemToDrop == null && player.getItems().size() > 0) {
+            itemToDrop = player.getItems().getLast();
+        }
+        if (itemToDrop != null) {
+            player.dropItem(itemToDrop);
+            AdventureGame.notify("notice", "You dropped the " + itemToDrop.name() + ".");
+            return;
+        }
+        //code for behavior when there are no items the player has
+        AdventureGame.notify("warning", "You don't have any items to drop.");
     }
 
     // if only one passage is available in the room THAT IS NOT THE WAY THE PLAYER
@@ -106,24 +127,35 @@ public record Command(String name, String[] keywords) {
     // otherwise user may specify which passage they want to take
     private void ActionMove(String action) {
         Player player = AdventureGame.player;
-        int keyIndex = keywordIndex(keywords, action);
-        if (keyIndex == -1) { return; }
+
+        //getting the different passages of the current room and checking to see if message contains them
         Room pRoom = player.getRoom();
         List<String> validPassages = pRoom.getPassages().stream().map(p -> p.name()).toList();
-        String subAction = action.substring(keyIndex);
+        Room targetRoom = null;
         for (String passage : validPassages) {
-            if (subAction.contains(passage)) {
-                player.moveToRoom(pRoom.getConnectingRoom(passage));
+            if (action.contains(passage)) {
+                targetRoom =  pRoom.getConnectingRoom(passage);
+                break;
             }
         }
-        if (pRoom.getPassages().size() == 2) {
+
+        //if not, goes to the passage that the player didnt enter through
+        if (targetRoom == null && pRoom.getPassages().size() == 2) {
             player.moveToRoom(player.lastRoom());
             for (Passage passage : pRoom.getPassages()) {
                 if (player.lastRoom() != passage.r1() && player.lastRoom() != passage.r2()) {
-                    player.moveToRoom(passage.notPlayerRoom());
+                    targetRoom = passage.notPlayerRoom();
+                    break;
                 }
             }
         }
+        if (targetRoom != null) {
+            player.moveToRoom(targetRoom);
+            AdventureGame.notify("notice", "You make your way to " + targetRoom.getName() + ".");
+            return;
+        }
+        AdventureGame.notify("warning", "Please specify where you'd like to move to.");
+
         //behavior for when there is no obvious room to go to
     }
 

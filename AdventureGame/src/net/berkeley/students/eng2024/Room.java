@@ -25,6 +25,14 @@ public class Room {
         grid = new IItem[3][3];
         passages = p;
     }
+    public Room(String codeName, String passageDescription, String description){
+        this.codeName = codeName;
+        this.roomDescription = description;
+        this.passageDescription = passageDescription;
+        passages = new ArrayList<>();
+        grid = new IItem[3][3];
+        passages = List.of();
+    }
 
     public void addPassage(Passage passage) {
         passages.add(passage);

@@ -9,6 +9,7 @@ public class Player {
     private double hitpoints;
     public final double maxHitpoints = 100;
     private AdventureGame adventureGame;
+    ArrayList<IItem> items;
 
     //please keep this sorted (end of set is most recent)
     private ArrayList<Room> visitedRooms;
@@ -18,6 +19,7 @@ public class Player {
         this.currentRoom = startRoom;
         this.adventureGame = adventureGame;
         this.hitpoints = maxHitpoints;
+        items = new ArrayList<>();
         visitedRooms = new ArrayList<>();
         visitedRooms.add(currentRoom);
     }
@@ -36,5 +38,8 @@ public class Player {
         return visitedRooms.size() == 1 ? currentRoom : visitedRooms.get(visitedRooms.size()-2);
     }
     public void setHitpoints(double hitpoints) { this.hitpoints = hitpoints; }
+    public List<IItem> getItems() { return items; }
+    public void dropItem(IItem item) { items.remove(item); }
+    public void pickupItem(IItem item) { items.add(item); }
 
 }

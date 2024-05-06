@@ -1,6 +1,7 @@
 package net.berkeley.students.eng2024;
 
 import java.io.Console;
+import java.io.PrintWriter;
 
 public class AdventureGame {
 
@@ -16,6 +17,7 @@ public class AdventureGame {
     }
 
     private static final Console console = System.console();
+    private static final PrintWriter writer = console.writer();
     
     private static void takeAction(String action) {
         boolean taken = false;
@@ -30,6 +32,15 @@ public class AdventureGame {
             Command.AvailableCommands().forEach(s -> System.out.print(s + ", "));;
             System.out.println();
         }
+    }
+
+    
+    public static void notify(String type, String message) {
+        switch (type) {
+            case "warning": writer.println("!!!" + message + "!!!"); return;
+            default: writer.println("---" + message + "---"); return;
+        }
+        
     }
 
     //make sure all choices in the game are in lower case!
