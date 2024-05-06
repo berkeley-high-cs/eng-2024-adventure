@@ -1,7 +1,5 @@
 package net.berkeley.students.eng2024;
 
-
-
 public class Creature implements IEntity {
 
     private double hitpoints;
@@ -16,10 +14,24 @@ public class Creature implements IEntity {
         this.description = description;
     }
 
-    public double getHitpoints() { return this.hitpoints; }
-    public boolean isHostile() { return this.isHostile; }
-    public String name() { return this.name; }
-    public String description() { return this.description; }
-    public void setHitpoints(double hitpoints) { this.hitpoints = hitpoints; }
+    public double getHitpoints() {
+        return this.hitpoints;
+    }
+
+    public boolean isHostile() {
+        return this.isHostile;
+    }
+
+    public String name() {
+        return this.name;
+    }
+
+    public String description() {
+        return this.description;
+    }
+
+    public void setHitpoints(double hitpoints) {
+        this.hitpoints = hitpoints;
+    }
 
 }
