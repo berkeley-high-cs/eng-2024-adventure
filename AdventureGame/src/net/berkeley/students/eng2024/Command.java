@@ -21,7 +21,13 @@ public record Command(String name, String[] keywords) {
             "go back", "leave", "return"
     };
     private static final String[] KEYWORDS_INSPECT = new String[] {
-        "check out", "inspect", "look at", "view"
+            "check out", "inspect", "look at", "view"
+    };
+    private static final String[] KEYWORDS_CURRENTROOM = new String[] {
+            "room", "area", "surroundings"
+    };
+    private static final String[] KEYWORDS_STATUS = new String[] {
+            "self", "status"
     };
     private static final Command[] BASECOMMANDS = new Command[] {
             new Command("attack", KEYWORDS_ATTACK),
@@ -29,7 +35,8 @@ public record Command(String name, String[] keywords) {
             new Command("drop", KEYWORDS_DROP),
             new Command("move", KEYWORDS_MOVE),
             new Command("return", KEYWORDS_RETURN),
-            new Command("inspect", KEYWORDS_INSPECT)
+            new Command("inspect", KEYWORDS_INSPECT),
+            new Command("status", new String[] { "status" })
     };
 
     // sometimes the player could have the opportunity to do other things, like
@@ -55,27 +62,35 @@ public record Command(String name, String[] keywords) {
     // for it here!! does not necessarily need to be a method of this Record
     public void TakeAction(String action) {
         int keyIndex = keywordIndex(keywords, action);
-        //if no move keyword was inputted, return
-        if (keyIndex == -1) { return; }
+        // if no move keyword was inputted, return
+        if (keyIndex == -1) {
+            return;
+        }
         String subAction = action.substring(keyIndex);
         switch (name) {
             case "attack":
                 ActionAttack(subAction);
+                break;
             case "pickup":
                 ActionPickup(subAction);
+                break;
             case "drop":
                 ActionDrop(subAction);
+                break;
             case "move":
                 ActionMove(subAction);
+                break;
             case "return":
                 ActionReturn(subAction);
+                break;
             case "inspect":
                 ActionInspect(subAction);
-            default:
+                break;
+            case "status":
+                ActionStatus();
                 break;
         }
     }
-
 
     private static final int keywordIndex(String[] keywords, String str) {
         for (String s : keywords) {
@@ -87,7 +102,8 @@ public record Command(String name, String[] keywords) {
         return -1;
     }
 
-    // if no additional text is provided, attacks random available enemy
+    // if no additional text is provided, attacks random available enemy with most
+    // recent weapon
     // otherwise user may specify a weapon or enemy
     private void ActionAttack(String action) {
 
@@ -118,7 +134,7 @@ public record Command(String name, String[] keywords) {
             AdventureGame.notify("notice", "You dropped the " + itemToDrop.name() + ".");
             return;
         }
-        //code for behavior when there are no items the player has
+        // code for behavior when there are no items the player has
         AdventureGame.notify("warning", "You don't have any items to drop.");
     }
 
@@ -128,18 +144,19 @@ public record Command(String name, String[] keywords) {
     private void ActionMove(String action) {
         Player player = AdventureGame.player;
 
-        //getting the different passages of the current room and checking to see if message contains them
+        // getting the different passages of the current room and checking to see if
+        // message contains them
         Room pRoom = player.getRoom();
         List<String> validPassages = pRoom.getPassages().stream().map(p -> p.name()).toList();
         Room targetRoom = null;
         for (String passage : validPassages) {
             if (action.contains(passage)) {
-                targetRoom =  pRoom.getConnectingRoom(passage);
+                targetRoom = pRoom.getConnectingRoom(passage);
                 break;
             }
         }
 
-        //if not, goes to the passage that the player didnt enter through
+        // if not, goes to the passage that the player didnt enter through
         if (targetRoom == null && pRoom.getPassages().size() == 2) {
             player.moveToRoom(player.lastRoom());
             for (Passage passage : pRoom.getPassages()) {
@@ -154,9 +171,8 @@ public record Command(String name, String[] keywords) {
             AdventureGame.notify("notice", "You make your way to " + targetRoom.getName() + ".");
             return;
         }
+        // if there is no obvious room to go to
         AdventureGame.notify("warning", "Please specify where you'd like to move to.");
-
-        //behavior for when there is no obvious room to go to
     }
 
     // no additional arguments, just a shorthand for going back the way the player
@@ -165,11 +181,50 @@ public record Command(String name, String[] keywords) {
 
     }
 
-    // inspect literally anything
+    // inspect literally anything - creatures in room, player status, the room
+    // itself, any item the player has
     private void ActionInspect(String action) {
 
+        Player player = AdventureGame.player;
+        for (String s : KEYWORDS_STATUS) {
+            if (action.contains(s)) {
+                ActionStatus();
+
+                return;
+            }
+        }
+
+        for (String s : KEYWORDS_CURRENTROOM) {
+            if (action.contains(s)) {
+                AdventureGame.notify("info", player.getRoom().getDescription());
+
+                return;
+            }
+        }
+
+        List<String> itemNames = player.getItems().stream().map(x -> x.name()).toList();
+        for (String s : itemNames) {
+            if (action.contains(s)) {
+                IItem item = player.getItems().stream().filter(x -> x.name().equals(s)).findFirst().get();
+
+                AdventureGame.notify("info", item.name());
+                AdventureGame.notify("info", item.description());
+                return;
+            }
+        }
+
+        // implement behavior for inspecting a creature
+
+        // behavior if nothing to inspect was specified
+        AdventureGame.notify("warning", "Please specify what you'd like to inspect.");
     }
-    public String toString(){
+
+    // checks players current status
+    private void ActionStatus() {
+        AdventureGame.notify("info", "You have " + AdventureGame.player.getHitpoints() + " health.");
+    }
+
+    public String toString() {
         return name;
     }
 }
