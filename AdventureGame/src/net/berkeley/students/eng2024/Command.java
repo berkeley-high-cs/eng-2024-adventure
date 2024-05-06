@@ -147,7 +147,7 @@ public record Command(String name, String[] keywords) {
         // getting the different passages of the current room and checking to see if
         // message contains them
         Room pRoom = player.getRoom();
-        List<String> validPassages = pRoom.getPassages().stream().map(p -> p.name()).toList();
+        List<String> validPassages = pRoom.getPassages().stream().map(p -> p.getName()).toList();
         Room targetRoom = null;
         for (String passage : validPassages) {
             if (action.contains(passage)) {
@@ -160,7 +160,7 @@ public record Command(String name, String[] keywords) {
         if (targetRoom == null && pRoom.getPassages().size() == 2) {
             player.moveToRoom(player.lastRoom());
             for (Passage passage : pRoom.getPassages()) {
-                if (player.lastRoom() != passage.r1() && player.lastRoom() != passage.r2()) {
+                if (player.lastRoom() != passage.getRoom1() && player.lastRoom() != passage.getRoom2()) {
                     targetRoom = passage.notPlayerRoom();
                     break;
                 }

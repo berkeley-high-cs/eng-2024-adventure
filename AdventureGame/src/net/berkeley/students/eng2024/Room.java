@@ -10,28 +10,37 @@ public class Room {
     // player can see through, e.g. a broken window (so like, it would say There is
     // a broken window, and
     // you can see [passageDescription] on the other side.)
-    private IItem[][] grid;
-    private String roomDescription;
+    private ArrayList<IItem> items;
+    private String description;
     private String codeName;
-    private List<Passage> passages;
+    private ArrayList<Passage> passages;
     private String passageDescription;
 
-    public Room(String codeName, String passageDescription, String description, List<Passage> p) {
+    public Room(String codeName, String passageDescription, String description, ArrayList<Passage> p, ArrayList<IItem> items) {
         this.codeName = codeName;
-        this.roomDescription = description;
+        this.description = description;
         this.passageDescription = passageDescription;
         passages = new ArrayList<>();
-        grid = new IItem[3][3];
+        this.items = items;
         passages = p;
     }
 
-    public Room(String codeName, String passageDescription, String description) {
+    public Room(String codeName, String passageDescription, String description, ArrayList<IItem> items) {
         this.codeName = codeName;
-        this.roomDescription = description;
+        this.description = description;
         this.passageDescription = passageDescription;
         passages = new ArrayList<>();
-        grid = new IItem[3][3];
-        passages = List.of();
+        this.items = items;
+        passages = new ArrayList<>();
+    }
+
+    //describe the room itself and all the items and everythin
+    public String describe() {
+        String s = description;
+        for (Passage p : passages) {
+            s += "\nThere is a " + p.getName() + (p.isAccessible() ? ", and you can see " + p.notRoom(this).getPassageDescription() + " through it." : ".");
+        }
+        return s;
     }
 
     public void addPassage(Passage passage) {
@@ -43,45 +52,27 @@ public class Room {
     }
 
     public Room getConnectingRoom(String passageName) {
-        Passage passage = passages.stream().filter(p -> p.name().toLowerCase().equals(passageName.toLowerCase()))
+        Passage passage = passages.stream().filter(p -> p.getName().toLowerCase().equals(passageName.toLowerCase()))
                 .findFirst().get();
-        return passage.r1() == this ? passage.r2() : passage.r1();
+        return passage.getRoom1() == this ? passage.getRoom2() : passage.getRoom1();
     }
 
     public String getDescription() {
-        return roomDescription;
+        return description;
     }
 
     public String getPassageDescription() {
         return passageDescription;
     }
 
-    public IItem[][] getLayout() {
-        return grid;
+    public ArrayList<IItem> getItems() {
+        return items;
     }
-
-    public void changeLayout(IItem thing, int x, int y) {
-        grid[x][y] = thing;
+    public void removeItem(IItem item) {
+        items.remove(item);
     }
-
-    public void changeThing(IItem thing, IItem newThing) {
-        for (int s = 0; s < 3; s++) {
-            for (int t = 0; s < 3; t++) {
-                if (grid[s][t] == thing) {
-                    grid[s][t] = newThing;
-                }
-            }
-        }
-    }
-
-    public void changeThing(IItem thing) {
-        for (int s = 0; s < 3; s++) {
-            for (int t = 0; s < 3; t++) {
-                if (grid[s][t] == thing) {
-                    grid[s][t] = null;
-                }
-            }
-        }
+    public void addItem(IItem item) {
+        items.add(item);
     }
 
     public String getName() {

@@ -20,7 +20,7 @@ public class AdventureGame {
 
     private void gameLoop() {
         while (true) {
-            String action = ask("What would you like to do?");
+            String action = ask("What would you like to do?\n");
             takeAction(action);
         }
     }
