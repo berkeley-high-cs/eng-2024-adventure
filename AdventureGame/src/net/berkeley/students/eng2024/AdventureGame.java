@@ -2,6 +2,8 @@ package net.berkeley.students.eng2024;
 
 import java.io.Console;
 import java.io.PrintWriter;
+import java.util.ArrayList;
+import java.util.Arrays;
 
 public class AdventureGame {
 
@@ -10,12 +12,26 @@ public class AdventureGame {
     private static final PrintWriter writer = console.writer();
     public static Player player;
     public static GameMap map;
+    public static ArrayList<Command> commands = new ArrayList<>();
 
     public AdventureGame() {
+
         map = new GameMap();
         player = new Player(map.getRooms()[0], this);
+        registerCommands();
+        player.moveToRoom(player.getRoom());
         gameLoop();
 
+    }
+
+    // sort by precedence here
+    private void registerCommands() {
+        commands.add(new Command.ReturnCommand(player));
+        commands.add(new Command.AttackCommand(player));
+        commands.add(new Command.PickupCommand(player));
+        commands.add(new Command.DropCommand(player));
+        commands.add(new Command.MoveCommand(player));
+        commands.add(new Command.InspectCommand(player));
     }
 
     private void gameLoop() {
@@ -28,18 +44,18 @@ public class AdventureGame {
     private static void takeAction(String action) {
         boolean taken = false;
 
-        for (Command command : Command.AvailableCommands()) {
-            if (command.ActionIsThisCommand(action)) {
-
-                command.TakeAction(action);
+        for (Command command : commands) {
+            if (command.doCommand(action)) {
                 taken = true;
+                break;
             }
         }
         if (!taken) {
-            System.out.println("Sorry, we don't recognize this command. Try:");
-            Command.AvailableCommands().forEach(s -> System.out.print(s + ", "));
-            ;
-            System.out.println();
+            String s = "Sorry, we don't recognize this command. Try:\n";
+            for (Command command : commands) {
+                s += command.toString() + " | ";
+            }
+            notify("warning", s);
         }
     }
 
@@ -52,6 +68,8 @@ public class AdventureGame {
             case "info":
                 str = "< " + message + " >";
                 break;
+            case "borderless":
+                str = message;
             default:
                 str = "--- " + message + " ---";
         }
