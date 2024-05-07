@@ -2,6 +2,8 @@ package net.berkeley.students.eng2024;
 
 import java.io.Console;
 import java.io.PrintWriter;
+import java.util.ArrayList;
+import java.util.Arrays;
 
 public class AdventureGame {
 
@@ -10,6 +12,7 @@ public class AdventureGame {
     private static final PrintWriter writer = console.writer();
     public static Player player;
     public static GameMap map;
+    public static ArrayList<Command> commands = new ArrayList<>(Arrays.asList(new Command.AttackCommand()));
 
     public AdventureGame() {
         
@@ -30,11 +33,11 @@ public class AdventureGame {
     private static void takeAction(String action) {
         boolean taken = false;
 
-        for (Command command : Command.AvailableCommands()) {
-            if (command.ActionIsThisCommand(action)) {
-                command.TakeAction(action);
+        for (Command command : commands) {
+            if (command.doCommand(action)) {
                 taken = true;
                 break;
+            } 
             }
         }
         if (!taken) {

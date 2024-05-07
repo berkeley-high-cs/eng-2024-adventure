@@ -2,62 +2,40 @@ package net.berkeley.students.eng2024;
 
 import java.util.Arrays;
 import java.util.List;
+public interface Command {
 
-public record Command(String name, String[] keywords) {
+    public boolean doCommand(String action);
 
-    private static final String[] KEYWORDS_ATTACK = new String[] {
+    public static record AttackCommand() implements Command {
+        private static final String[] keywords = new String[] {
             "attack", "fight", "stab", "punch", "beat up"
+        };
     };
-    private static final String[] KEYWORDS_PICKUP = new String[] {
+    public static record PickupCommand() implements Command {
+        private static final String[] keywords = new String[] {
             "pick up", "pickup", "take"
+        };
     };
-    private static final String[] KEYWORDS_DROP = new String[] {
-            "drop", "leave behind"
+    public static record DropCommand() implements Command {
+        private static final String[] keywords = new String[] {
+            "drop", "leave behind", "get rid of"
+        };
     };
-    private static final String[] KEYWORDS_MOVE = new String[] {
+    public static record MoveCommand() implements Command {
+        private static final String[] keywords = new String[] {
             "go", "move"
+        };
     };
-    private static final String[] KEYWORDS_RETURN = new String[] {
+    public static record ReturnCommand() implements Command {
+        private static final String[] keywords = new String[] {
             "go back", "leave", "return"
+        };
     };
-    private static final String[] KEYWORDS_INSPECT = new String[] {
-            "check out", "inspect", "look at", "view"
+    public static record InspectCommand() implements Command  {
+        private static final String[] keywords = new String[] {
+            "check out", "inspect", "look at", "view", "status"
+        };
     };
-    private static final String[] KEYWORDS_CURRENTROOM = new String[] {
-            "room", "area", "surroundings"
-    };
-    private static final String[] KEYWORDS_STATUS = new String[] {
-            "self", "status"
-    };
-    //implement a sort based on precedence
-    private static final Command[] BASECOMMANDS = new Command[] {
-            new Command("attack", KEYWORDS_ATTACK),
-            new Command("pickup", KEYWORDS_PICKUP),
-            new Command("drop", KEYWORDS_DROP),
-            new Command("move", KEYWORDS_MOVE),
-            new Command("return", KEYWORDS_RETURN),
-            new Command("inspect", KEYWORDS_INSPECT),
-            new Command("status", new String[] { "status" })
-    };
-
-    // sometimes the player could have the opportunity to do other things, like
-    // unlocking a door or trading with a merchant. this will check the current room
-    // and entities within that room
-    // including the player's inventory for any other things they could do, in
-    // addition to the base 5
-    public static List<Command> AvailableCommands() {
-        List<Command> available = Arrays.asList(BASECOMMANDS);
-        return available;
-    }
-
-    public boolean ActionIsThisCommand(String action) {
-        for (String s : keywords) {
-            if (action.contains(s)) {
-                return true;
-            }
-        }
-        return false;
-    }
 
     // if an extra command is added (e.g. unlocking a door) make sure to add a case
     // for it here!! does not necessarily need to be a method of this Record
@@ -93,7 +71,7 @@ public record Command(String name, String[] keywords) {
         }
     }
 
-    private static final int keywordIndex(String[] keywords, String str) {
+    default int keywordIndex(String[] keywords, String str) {
         for (String s : keywords) {
             int i = str.indexOf(s);
             if (i > -1) {
@@ -254,4 +232,5 @@ public record Command(String name, String[] keywords) {
     public String toString() {
         return name;
     }
+}
 }
