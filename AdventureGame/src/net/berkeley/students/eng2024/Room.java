@@ -16,7 +16,8 @@ public class Room {
     private ArrayList<Passage> passages;
     private String passageDescription;
 
-    public Room(String codeName, String passageDescription, String description, ArrayList<Passage> p, ArrayList<Entity> items) {
+    public Room(String codeName, String passageDescription, String description, ArrayList<Passage> p,
+            ArrayList<Entity> items) {
         this.codeName = codeName;
         this.description = description;
         this.passageDescription = passageDescription;
@@ -34,12 +35,17 @@ public class Room {
         passages = new ArrayList<>();
     }
 
-    //describe the room itself and all the items and everythin
+    // describe the room itself and all the items and everythin
     public String describe() {
         String s = description;
         for (Passage p : passages) {
-            if (AdventureGame.player.lastRoom() == p.notPlayerRoom()) { continue; }
-            s += "\nThere is a " + p.getName() + (p.isAccessible() ? ", and you can see " + p.notRoom(this).getPassageDescription() + " through it." : ".");
+            if (AdventureGame.player.lastRoom() == p.notPlayerRoom()) {
+                continue;
+            }
+            s += "\nThere is a " + p.getName()
+                    + (p.isAccessible()
+                            ? ", and you can see " + p.notRoom(this).getPassageDescription() + " through it."
+                            : ".");
         }
         return s;
     }
@@ -69,9 +75,11 @@ public class Room {
     public ArrayList<Entity> getEntities() {
         return entities;
     }
+
     public void removeEntity(Entity item) {
         entities.remove(item);
     }
+
     public void addEntity(Entity item) {
         entities.add(item);
     }
