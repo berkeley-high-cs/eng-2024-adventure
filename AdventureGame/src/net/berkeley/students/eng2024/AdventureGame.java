@@ -4,6 +4,7 @@ import java.io.Console;
 import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.stream.Stream;
 
 public class AdventureGame {
 
@@ -60,6 +61,9 @@ public class AdventureGame {
     }
 
     public static void notify(String type, String message) {
+        System.out.println(format(type,message));
+    }
+    public static String format(String type, String message) {
         String str = "";
         switch (type) {
             case "warning":
@@ -68,13 +72,26 @@ public class AdventureGame {
             case "info":
                 str = "< " + message + " >";
                 break;
+            case "longinfo": 
+                ArrayList<String> lines = new ArrayList<String>(str.lines().toList());
+                if (lines.size() == 1) {
+                    str = "< " + message + " >";
+                    break;
+                }
+                for (int i = 0; i < lines.size(); i++) {
+                    String left;
+                    String right;
+                    if (i == 0) { left = "/"; right = "\\"; }
+                    else if (i == lines.size() - 1) { left = "\\"; right = "/"; }
+                    else { left = "|"; right = "|"; }
+                }
+                
             case "borderless":
                 str = message;
             default:
                 str = "--- " + message + " ---";
         }
-        System.out.println(str);
-
+        return str;
     }
 
     // make sure all choices in the game are in lower case!
