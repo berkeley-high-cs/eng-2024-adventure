@@ -12,8 +12,10 @@ public class AdventureGame {
     public static GameMap map;
 
     public AdventureGame() {
+        
         map = new GameMap();
         player = new Player(map.getRooms()[0], this);
+        player.moveToRoom(player.getRoom());
         gameLoop();
 
     }
@@ -30,9 +32,9 @@ public class AdventureGame {
 
         for (Command command : Command.AvailableCommands()) {
             if (command.ActionIsThisCommand(action)) {
-
                 command.TakeAction(action);
                 taken = true;
+                break;
             }
         }
         if (!taken) {
@@ -52,6 +54,8 @@ public class AdventureGame {
             case "info":
                 str = "< " + message + " >";
                 break;
+            case "borderless":
+                str = message;
             default:
                 str = "--- " + message + " ---";
         }

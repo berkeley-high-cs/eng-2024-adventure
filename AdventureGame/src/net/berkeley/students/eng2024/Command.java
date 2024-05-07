@@ -29,6 +29,7 @@ public record Command(String name, String[] keywords) {
     private static final String[] KEYWORDS_STATUS = new String[] {
             "self", "status"
     };
+    //implement a sort based on precedence
     private static final Command[] BASECOMMANDS = new Command[] {
             new Command("attack", KEYWORDS_ATTACK),
             new Command("pickup", KEYWORDS_PICKUP),
@@ -112,15 +113,33 @@ public record Command(String name, String[] keywords) {
     // if only one item is in the room, automatically picks it up, otherwise
     // requires name
     private void ActionPickup(String action) {
-
+        Player player = AdventureGame.player;
+        Item targetItem = null;
+        List<Entity> entities = player.getRoom().getEntities();
+        for (Entity entity : entities) {
+            if (entity instanceof Item && action.contains(entity.name())) {
+                targetItem = (Item)entity;
+            }
+        }
+        
+        if (targetItem == null && entities.size() == 1 && entities.getFirst() instanceof Item) {
+            targetItem = (Item)entities.getFirst();
+        }
+        if (targetItem != null) {
+            player.getRoom().removeEntity((Entity)targetItem);
+            targetItem.pickup(player);
+            AdventureGame.notify("notice", "You picked up the " + targetItem.name() + ".");
+            return;
+        }
+        AdventureGame.notify("warning", "Please specify an item to be picked up.");
     }
 
     // if no additional text is provided, drops the most recently picked up item
     // otherwise user may specify an item in their inventory
     private void ActionDrop(String action) {
         Player player = AdventureGame.player;
-        IItem itemToDrop = null;
-        for (IItem item : player.getItems()) {
+        Item itemToDrop = null;
+        for (Item item : player.getItems()) {
             if (action.contains(item.name())) {
                 itemToDrop = item;
                 break;
@@ -130,7 +149,7 @@ public record Command(String name, String[] keywords) {
             itemToDrop = player.getItems().getLast();
         }
         if (itemToDrop != null) {
-            player.dropItem(itemToDrop);
+            itemToDrop.drop(player);
             AdventureGame.notify("notice", "You dropped the " + itemToDrop.name() + ".");
             return;
         }
@@ -143,32 +162,32 @@ public record Command(String name, String[] keywords) {
     // otherwise user may specify which passage they want to take
     private void ActionMove(String action) {
         Player player = AdventureGame.player;
-
         // getting the different passages of the current room and checking to see if
         // message contains them
         Room pRoom = player.getRoom();
         List<String> validPassages = pRoom.getPassages().stream().map(p -> p.getName()).toList();
-        Room targetRoom = null;
+        Passage targetPassage = null;
         for (String passage : validPassages) {
             if (action.contains(passage)) {
-                targetRoom = pRoom.getConnectingRoom(passage);
+                //targetRoom = pRoom.getConnectingRoom(passage);
+                targetPassage = pRoom.getPassages().stream().filter(p -> p.getName().equals(passage)).findFirst().get();
                 break;
             }
         }
 
         // if not, goes to the passage that the player didnt enter through
-        if (targetRoom == null && pRoom.getPassages().size() == 2) {
+        if (targetPassage == null && pRoom.getPassages().size() == 2) {
             player.moveToRoom(player.lastRoom());
             for (Passage passage : pRoom.getPassages()) {
                 if (player.lastRoom() != passage.getRoom1() && player.lastRoom() != passage.getRoom2()) {
-                    targetRoom = passage.notPlayerRoom();
+                    targetPassage = passage;
                     break;
                 }
             }
         }
-        if (targetRoom != null) {
-            player.moveToRoom(targetRoom);
-            AdventureGame.notify("notice", "You make your way to " + targetRoom.getName() + ".");
+        if (targetPassage != null) {
+            AdventureGame.notify("notice", "You make your way through the " + targetPassage.getName() + ".");
+            player.takePassage(targetPassage);
             return;
         }
         // if there is no obvious room to go to
@@ -178,13 +197,21 @@ public record Command(String name, String[] keywords) {
     // no additional arguments, just a shorthand for going back the way the player
     // came
     private void ActionReturn(String action) {
-
+        Player player = AdventureGame.player;
+        Room targetRoom = player.lastRoom();
+        if (targetRoom == player.getRoom()) {
+            AdventureGame.notify("warning", "There is no room to go back to.");
+            return;
+        }
+        Passage targetPassage = player.getRoom().getPassages().stream().filter(p -> p.connects(targetRoom)).findFirst().get();
+        AdventureGame.notify("notice", "You make your way through the " + targetPassage.getName() + ".");
+        player.takePassage(targetPassage);
+        
     }
 
     // inspect literally anything - creatures in room, player status, the room
     // itself, any item the player has
     private void ActionInspect(String action) {
-
         Player player = AdventureGame.player;
         for (String s : KEYWORDS_STATUS) {
             if (action.contains(s)) {
@@ -205,7 +232,7 @@ public record Command(String name, String[] keywords) {
         List<String> itemNames = player.getItems().stream().map(x -> x.name()).toList();
         for (String s : itemNames) {
             if (action.contains(s)) {
-                IItem item = player.getItems().stream().filter(x -> x.name().equals(s)).findFirst().get();
+                Item item = player.getItems().stream().filter(x -> x.name().equals(s)).findFirst().get();
 
                 AdventureGame.notify("info", item.name());
                 AdventureGame.notify("info", item.description());

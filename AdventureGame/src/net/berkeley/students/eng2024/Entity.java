@@ -1,7 +1,7 @@
 package net.berkeley.students.eng2024;
 
 
-public interface IEntity {
+public interface Entity {
     
     public String description();
 

@@ -9,17 +9,22 @@ public class Player {
     private double hitpoints;
     public final double maxHitpoints = 100;
     private AdventureGame adventureGame;
-    ArrayList<IItem> items;
+    ArrayList<Item> items;
 
     // please keep this sorted (end of set is most recent)
     private ArrayList<Room> visitedRooms;
 
+    // please keep this sorted (end of set is most recent)
+    private ArrayList<Passage> passagesTaken;
+
     public Player(Room startRoom, AdventureGame adventureGame) {
         this.adventureGame = adventureGame;
         this.hitpoints = maxHitpoints;
+        this.currentRoom = startRoom;
         items = new ArrayList<>();
         visitedRooms = new ArrayList<>();
-        moveToRoom(startRoom);
+        passagesTaken = new ArrayList<>();
+        
     }
 
     public Room getRoom() {
@@ -30,6 +35,14 @@ public class Player {
         return this.hitpoints;
     }
 
+    public void takePassage(Passage passage) {
+        if (passagesTaken.contains(passage)) {
+            passagesTaken.remove(passage);
+        }
+        passagesTaken.add(passage);
+        moveToRoom(passage.notPlayerRoom());
+    }
+
     public void moveToRoom(Room room) {
         this.currentRoom = room;
         if (visitedRooms.contains(room)) {
@@ -37,7 +50,7 @@ public class Player {
         }
         visitedRooms.add(room);
 
-        AdventureGame.notify("info", room.describe());
+        AdventureGame.notify("borderless", room.describe());
     }
 
     public List<Room> getVisitedRooms() {
@@ -52,16 +65,16 @@ public class Player {
         this.hitpoints = hitpoints;
     }
 
-    public List<IItem> getItems() {
+    public List<Item> getItems() {
         return items;
     }
 
-    public void dropItem(IItem item) {
+    public void dropItem(Item item) {
         // implement item going into the room the player is in
         items.remove(item);
     }
 
-    public void pickupItem(IItem item) {
+    public void pickupItem(Item item) {
         items.add(item);
     }
 
