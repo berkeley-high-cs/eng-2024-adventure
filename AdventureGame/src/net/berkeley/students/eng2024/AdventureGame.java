@@ -73,21 +73,28 @@ public class AdventureGame {
                 str = "< " + message + " >";
                 break;
             case "longinfo": 
-                ArrayList<String> lines = new ArrayList<String>(str.lines().toList());
+                ArrayList<String> lines = new ArrayList<String>(message.lines().toList());
                 if (lines.size() == 1) {
                     str = "< " + message + " >";
                     break;
                 }
+                int longest = message.lines().reduce("", (a, b) -> a.length() > b.length() ? a : b).length();
+                
                 for (int i = 0; i < lines.size(); i++) {
                     String left;
                     String right;
-                    if (i == 0) { left = "/"; right = "\\"; }
-                    else if (i == lines.size() - 1) { left = "\\"; right = "/"; }
-                    else { left = "|"; right = "|"; }
+                    if (i == 0) { left = "/ "; right = "\\"; }
+                    else if (i == lines.size() - 1) { left = "\\ "; right = "/"; }
+                    else { left = "| "; right = "|"; }
+                    String pad = longest - lines.get(i).length() <= 0 ? "" : String.valueOf(longest - lines.get(i).length());
+                    String format = "%s %s %" + pad + "s %n";
+                    lines.set(i,String.format(format,left,lines.get(i), right));
                 }
-                
+                str = lines.stream().reduce("", (a, b) -> a + b);
+                break;
             case "borderless":
                 str = message;
+                break;
             default:
                 str = "--- " + message + " ---";
         }

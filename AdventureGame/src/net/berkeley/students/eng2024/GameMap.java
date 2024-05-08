@@ -10,7 +10,7 @@ public class GameMap {
     //description: the actual long text that describes the room itself, without all the passages or items or creatures
 
     private Room[] rooms = { 
-        new Room("starterRoom", "the starter room", "it's the starter room!", new ArrayList<>()),
+        new Room("starterRoom", "the starter room", "starter room description line 1\nstarter room description line 2\nstarter room description line 3", new ArrayList<>()),
         new Room("otherRoom", "the other room", "very empty 2", new ArrayList<>())
     };
     private Passage[] passages = {
