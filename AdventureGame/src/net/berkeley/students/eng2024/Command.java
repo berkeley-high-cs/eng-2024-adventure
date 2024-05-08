@@ -1,5 +1,6 @@
 package net.berkeley.students.eng2024;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -131,12 +132,12 @@ public interface Command {
 
     public static record MoveCommand(Player player) implements Command {
         private static final String[] keywords = new String[] {
-                "go", "move"
+                "go", "move", ""
         };
 
         private boolean moveThrough(Passage passage) {
             if (passage != null) {
-                AdventureGame.notify("notice", "You make your way through the " + passage.getName() + ".");
+                AdventureGame.notify("notice", "You " + passage.getMovementDescription());
                 player.takePassage(passage);
                 return true;
             }
@@ -145,38 +146,24 @@ public interface Command {
 
         public boolean doCommand(String action) {
             int i = Command.super.keywordIndex(keywords, action);
-            if (i == -1) {
-                return false;
-            }
+            // "" is a keyword so i is always positive
             action = action.substring(i);
             // getting the different passages of the current room and checking to see if
             // message contains them
             Room pRoom = player.getRoom();
-            List<String> validPassages = pRoom.getPassages().stream().map(p -> p.getName()).toList();
             Passage targetPassage = null;
-            for (String passage : validPassages) {
-                if (action.contains(passage)) {
-                    // targetRoom = pRoom.getConnectingRoom(passage);
-                    targetPassage = pRoom.getPassages().stream().filter(p -> p.getName().equals(passage)).findFirst()
-                            .get();
+            for (Passage passage : pRoom.getPassages()) {
+                if (passage.matches(action)) {
+                    targetPassage = passage;
                     break;
-                }
-            }
-
-            // if not, goes to the passage that the player didnt enter through
-            if (targetPassage == null && pRoom.getPassages().size() == 2) {
-                player.moveToRoom(player.lastRoom());
-                for (Passage passage : pRoom.getPassages()) {
-                    if (player.lastRoom() != passage.getRoom1() && player.lastRoom() != passage.getRoom2()) {
-                        targetPassage = passage;
-                        break;
-                    }
                 }
             }
             if (moveThrough(targetPassage)) {
                 return true;
             }
             // if there is no obvious room to go to
+            // so i is only 0 if there was no specific move keyword, in which case we want to tell the user to use a keyword
+            if (i == 0) { return false;}
             AdventureGame.notify("warning", "Please specify where you'd like to move to.");
             return true;
         }
@@ -188,7 +175,7 @@ public interface Command {
 
     public static record ReturnCommand(Player player) implements Command {
         private static final String[] keywords = new String[] {
-                "go back", "leave", "return"
+                "back", "leave", "return"
         };
 
         public boolean doCommand(String action) {
@@ -204,7 +191,7 @@ public interface Command {
             }
             Passage targetPassage = player.getRoom().getPassages().stream().filter(p -> p.connects(targetRoom))
                     .findFirst().get();
-            AdventureGame.notify("notice", "You make your way through the " + targetPassage.getName() + ".");
+            AdventureGame.notify("notice", "You go back through the " + targetPassage.getName() + ".");
             player.takePassage(targetPassage);
             return true;
         }

@@ -37,15 +37,12 @@ public class Room {
 
     // describe the room itself and all the items and everythin
     public String describe() {
-        String s = description;
+        String s = AdventureGame.format("longinfo",description);
         for (Passage p : passages) {
             if (AdventureGame.player.lastRoom() == p.notPlayerRoom()) {
                 continue;
             }
-            s += "\nThere is a " + p.getName()
-                    + (p.isAccessible()
-                            ? ", and you can see " + p.notRoom(this).getPassageDescription() + " through it."
-                            : ".");
+            s += p.toString(this);
         }
         return s;
     }
