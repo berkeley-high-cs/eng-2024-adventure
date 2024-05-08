@@ -79,14 +79,13 @@ public class AdventureGame {
                     break;
                 }
                 int longest = message.lines().reduce("", (a, b) -> a.length() > b.length() ? a : b).length();
-                
                 for (int i = 0; i < lines.size(); i++) {
                     String left;
                     String right;
-                    if (i == 0) { left = "/ "; right = "\\"; }
-                    else if (i == lines.size() - 1) { left = "\\ "; right = "/"; }
-                    else { left = "| "; right = "|"; }
-                    String pad = longest - lines.get(i).length() <= 0 ? "" : String.valueOf(longest - lines.get(i).length());
+                    if (i == 0) { left = " /"; right = "\\"; }
+                    else if (i == lines.size() - 1) { left = " \\"; right = "/"; }
+                    else { left = "| "; right = " |"; }
+                    String pad = longest - lines.get(i).length() <= 0 ? "" : String.valueOf(longest - lines.get(i).length() + 1);
                     String format = "%s %s %" + pad + "s %n";
                     lines.set(i,String.format(format,left,lines.get(i), right));
                 }
