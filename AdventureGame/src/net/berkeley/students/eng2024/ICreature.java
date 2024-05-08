@@ -1,6 +1,6 @@
 package net.berkeley.students.eng2024;
 
-public interface ICreature extends IEntity {
+public interface ICreature extends Entity {
 
     public String description();
 
@@ -17,7 +17,7 @@ public interface ICreature extends IEntity {
     public void changeHealth(int n);
 
     //This section is only necessary if we want to have monsters have items  
-    public IItem getItem(); 
+    public Item getItem(); 
 
     public boolean hasItem();
 

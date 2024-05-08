@@ -1,6 +1,6 @@
 package net.berkeley.students.eng2024;
 
-public class Creature implements IEntity {
+public class Creature implements Entity {
 
     private double hitpoints;
     private boolean isHostile;

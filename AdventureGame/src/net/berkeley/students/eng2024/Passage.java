@@ -23,6 +23,9 @@ public class Passage {
     public Room notRoom(Room r) {
         return r1 == r ? r2 : r1;
     }
+    public boolean connects(Room r) {
+        return r1 == r || r2 == r;
+    }
 
     public String getDescription() {
         return description;

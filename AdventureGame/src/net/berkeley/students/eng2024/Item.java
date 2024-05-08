@@ -1,6 +1,6 @@
 package net.berkeley.students.eng2024;
 
-public interface IItem extends IEntity {
+public interface Item {
 
     public void use(Player p);
 

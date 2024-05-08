@@ -10,35 +10,42 @@ public class Room {
     // player can see through, e.g. a broken window (so like, it would say There is
     // a broken window, and
     // you can see [passageDescription] on the other side.)
-    private ArrayList<IItem> items;
+    private ArrayList<Entity> entities;
     private String description;
     private String codeName;
     private ArrayList<Passage> passages;
     private String passageDescription;
 
-    public Room(String codeName, String passageDescription, String description, ArrayList<Passage> p, ArrayList<IItem> items) {
+    public Room(String codeName, String passageDescription, String description, ArrayList<Passage> p,
+            ArrayList<Entity> items) {
         this.codeName = codeName;
         this.description = description;
         this.passageDescription = passageDescription;
         passages = new ArrayList<>();
-        this.items = items;
+        this.entities = items;
         passages = p;
     }
 
-    public Room(String codeName, String passageDescription, String description, ArrayList<IItem> items) {
+    public Room(String codeName, String passageDescription, String description, ArrayList<Entity> items) {
         this.codeName = codeName;
         this.description = description;
         this.passageDescription = passageDescription;
         passages = new ArrayList<>();
-        this.items = items;
+        this.entities = items;
         passages = new ArrayList<>();
     }
 
-    //describe the room itself and all the items and everythin
+    // describe the room itself and all the items and everythin
     public String describe() {
         String s = description;
         for (Passage p : passages) {
-            s += "\nThere is a " + p.getName() + (p.isAccessible() ? ", and you can see " + p.notRoom(this).getPassageDescription() + " through it." : ".");
+            if (AdventureGame.player.lastRoom() == p.notPlayerRoom()) {
+                continue;
+            }
+            s += "\nThere is a " + p.getName()
+                    + (p.isAccessible()
+                            ? ", and you can see " + p.notRoom(this).getPassageDescription() + " through it."
+                            : ".");
         }
         return s;
     }
@@ -65,14 +72,16 @@ public class Room {
         return passageDescription;
     }
 
-    public ArrayList<IItem> getItems() {
-        return items;
+    public ArrayList<Entity> getEntities() {
+        return entities;
     }
-    public void removeItem(IItem item) {
-        items.remove(item);
+
+    public void removeEntity(Entity item) {
+        entities.remove(item);
     }
-    public void addItem(IItem item) {
-        items.add(item);
+
+    public void addEntity(Entity item) {
+        entities.add(item);
     }
 
     public String getName() {
