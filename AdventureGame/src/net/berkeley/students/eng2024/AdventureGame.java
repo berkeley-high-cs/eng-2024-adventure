@@ -8,17 +8,13 @@ import java.util.stream.Stream;
 
 public class AdventureGame {
 
-    private GameMap g = new GameMap();
+    public static final GameMap map = new GameMap();
     private static final Console console = System.console();
     private static final PrintWriter writer = console.writer();
-    public static Player player;
-    public static GameMap map;
-    public static ArrayList<Command> commands = new ArrayList<>();
+    public static final Player player = new Player(map.getRooms()[0]);;
+    private static ArrayList<Command> commands = new ArrayList<>();
 
     public AdventureGame() {
-
-        map = new GameMap();
-        player = new Player(map.getRooms()[0], this);
         registerCommands();
         player.moveToRoom(player.getRoom());
         gameLoop();
@@ -31,8 +27,9 @@ public class AdventureGame {
         commands.add(new Command.AttackCommand(player));
         commands.add(new Command.PickupCommand(player));
         commands.add(new Command.DropCommand(player));
-        commands.add(new Command.MoveCommand(player));
         commands.add(new Command.InspectCommand(player));
+        commands.add(new Command.MoveCommand(player));
+        
     }
 
     private void gameLoop() {
@@ -52,7 +49,7 @@ public class AdventureGame {
             }
         }
         if (!taken) {
-            String s = "Sorry, we don't recognize this command. Try:\n";
+            String s = "Sorry, we don't recognize this command. Try:  ";
             for (Command command : commands) {
                 s += command.toString() + " | ";
             }
@@ -65,6 +62,7 @@ public class AdventureGame {
     }
     public static String format(String type, String message) {
         String str = "";
+        ArrayList<String> lines = new ArrayList<String>(message.lines().toList());
         switch (type) {
             case "warning":
                 str = "!!! " + message + " !!!";
@@ -73,9 +71,8 @@ public class AdventureGame {
                 str = "< " + message + " >";
                 break;
             case "longinfo": 
-                ArrayList<String> lines = new ArrayList<String>(message.lines().toList());
                 if (lines.size() == 1) {
-                    str = "< " + message + " >";
+                    str = "< " + message + " >\n";
                     break;
                 }
                 int longest = message.lines().reduce("", (a, b) -> a.length() > b.length() ? a : b).length();
@@ -95,7 +92,7 @@ public class AdventureGame {
                 str = message;
                 break;
             default:
-                str = "--- " + message + " ---";
+                str = lines.stream().map(s -> "--- " + s + " ---\n").reduce("", (a, b) -> a + b);
         }
         return str;
     }

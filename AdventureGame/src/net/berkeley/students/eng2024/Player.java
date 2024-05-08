@@ -8,7 +8,6 @@ public class Player {
     private Room currentRoom;
     private double hitpoints;
     public final double maxHitpoints = 100;
-    private AdventureGame adventureGame;
     ArrayList<Item> items;
 
     // please keep this sorted (end of set is most recent)
@@ -17,8 +16,7 @@ public class Player {
     // please keep this sorted (end of set is most recent)
     private ArrayList<Passage> passagesTaken;
 
-    public Player(Room startRoom, AdventureGame adventureGame) {
-        this.adventureGame = adventureGame;
+    public Player(Room startRoom) {
         this.hitpoints = maxHitpoints;
         this.currentRoom = startRoom;
         items = new ArrayList<>();

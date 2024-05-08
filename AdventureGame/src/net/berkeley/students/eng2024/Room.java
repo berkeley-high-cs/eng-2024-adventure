@@ -42,10 +42,7 @@ public class Room {
             if (AdventureGame.player.lastRoom() == p.notPlayerRoom()) {
                 continue;
             }
-            s += "\nThere is a " + p.getName()
-                    + (p.isAccessible()
-                            ? ", and you can see " + p.notRoom(this).getPassageDescription() + " through it."
-                            : ".");
+            s += p.toString(this);
         }
         return s;
     }
