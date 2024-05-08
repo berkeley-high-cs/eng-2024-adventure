@@ -1,6 +1,6 @@
 package net.berkeley.students.eng2024;
 
-public interface Item {
+public interface Item extends Entity{
 
     public void use(Player p);
 
@@ -9,9 +9,5 @@ public interface Item {
 
     default void pickup(Player p) {
     }
-
-    public String description();
-
-    public String name();
 
 }
