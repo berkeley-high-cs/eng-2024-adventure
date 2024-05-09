@@ -98,10 +98,10 @@ public class Passage {
 
     public String toString(Room r) {
         String s = "";
-        s += ">>There is a " + name
+        s += "\n>>There is a " + name
                     + (accessible
-                            ? ", and you can see " + notRoom(r).getPassageDescription() + " beyond it.\n"
-                            : ".\n");
+                            ? ", and you can see " + notRoom(r).getPassageDescription() + " beyond it."
+                            : ".");
         return s;
     }
     public String toString() {
