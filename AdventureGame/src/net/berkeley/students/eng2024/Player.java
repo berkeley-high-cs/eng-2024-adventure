@@ -24,7 +24,7 @@ public class Player implements Living {
         visitedRooms = new ArrayList<>();
         passagesTaken = new ArrayList<>();
         effects = new ArrayList<>();
-        addEffect(new PoisonEffect(3, 10));
+        addEffect(new PoisonEffect(this, 3, 10));
     }
 
     public Room getRoom() {
