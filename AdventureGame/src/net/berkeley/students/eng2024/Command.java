@@ -3,6 +3,7 @@ package net.berkeley.students.eng2024;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Stream;
 
 public interface Command {
 
@@ -235,7 +236,7 @@ public interface Command {
 
             for (String s : roomKeywords) {
                 if (action.contains(s)) {
-                    AdventureGame.notify("info", player.getRoom().getDescription());
+                    System.out.println(player.getRoom().describe());
                     return true;
                 }
             }
@@ -250,7 +251,17 @@ public interface Command {
                 }
             }
 
-            // implement behavior for inspecting a creature
+            // inspecting something in the room the player is in
+            Stream<Entity> entities = player.getRoom().getEntities().stream();
+            List<String> entityNames = entities.map(x -> x.name()).toList();
+            for (String s : entityNames) {
+                if (action.contains(s)) {
+                    Entity entity = entities.filter(x -> x.name().equals(s)).findFirst().get();
+                    AdventureGame.notify("info", entity.name());
+                    AdventureGame.notify("info", entity.description());
+                    return true;
+                }
+            }
 
             // behavior if nothing to inspect was specified
             AdventureGame.notify("warning", "Please specify what you'd like to inspect.");
