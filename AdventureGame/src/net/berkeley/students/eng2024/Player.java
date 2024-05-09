@@ -3,12 +3,13 @@ package net.berkeley.students.eng2024;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Player {
+public class Player implements Living {
 
     private Room currentRoom;
     private double hitpoints;
     public final double maxHitpoints = 100;
-    ArrayList<Item> items;
+    private ArrayList<Item> items;
+    private ArrayList<Effect> effects;
 
     // please keep this sorted (end of set is most recent)
     private ArrayList<Room> visitedRooms;
@@ -22,7 +23,8 @@ public class Player {
         items = new ArrayList<>();
         visitedRooms = new ArrayList<>();
         passagesTaken = new ArrayList<>();
-        
+        effects = new ArrayList<>();
+        addEffect(new PoisonEffect(3, 10));
     }
 
     public Room getRoom() {
@@ -49,6 +51,7 @@ public class Player {
         visitedRooms.add(room);
 
         AdventureGame.notify("borderless", room.describe());
+        activateEffects();
     }
 
     public List<Room> getVisitedRooms() {
@@ -59,8 +62,8 @@ public class Player {
         return visitedRooms.size() == 1 ? currentRoom : visitedRooms.get(visitedRooms.size() - 2);
     }
 
-    public void setHitpoints(double hitpoints) {
-        this.hitpoints = hitpoints;
+    public void setHitpoints(double n) {
+        this.hitpoints = n;
     }
 
     public List<Item> getItems() {
@@ -74,6 +77,16 @@ public class Player {
 
     public void pickupItem(Item item) {
         items.add(item);
+    }
+
+    public List<Effect> getEffects() {
+        return effects;
+    }
+    public void addEffect(Effect e) {
+        effects.add(e);
+    }
+    public boolean removeEffect(Effect e) {
+        return effects.remove(e);
     }
 
 }
