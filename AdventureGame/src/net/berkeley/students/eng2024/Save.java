@@ -16,7 +16,7 @@ static class Save{
             e.printStackTrace();
         }
     }
-    public static void upload(String path, AdventureGame game){
+    public static void upload(String path){
         FileWriter fw;
         try{
             fw=new FileWriter(path);
@@ -31,5 +31,12 @@ static class Save{
         catch(Exception e){
             e.printStackTrace();
         }
+        fw.write(toCSV());
+    }
+    public static String toCSV(){
+        GameMap gm=AdventureGame.map;
+        Player p=AdventureGame.player;
+        Room[] rooms=gm.getRooms();
+        
     }
 }
