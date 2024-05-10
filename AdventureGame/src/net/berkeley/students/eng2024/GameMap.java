@@ -40,7 +40,7 @@ public class GameMap {
 
     public GameMap() {
     }
-
+    //these two get methods are also used as the mutator methods. DO NOT edit these arrays if you don't want them edited in this location.
     public Room[] getRooms() {
         return rooms;
     }
