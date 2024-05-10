@@ -1,5 +1,7 @@
-package src.main.java.org.adventure;
-public interface IEntity {
+package net.berkeley.students.eng2024;
+
+
+public interface Entity {
     
     public String description();
 

@@ -1,5 +1,13 @@
 # Eng 2024 Adventure
 
+##TODO
+- Item interface implementation (probably a FoodItem class first)
+- Weapon item class
+- Creature interface implementation
+- After that ^ attacking
+- Effects
+- A visual map that the player can access? (this would probably be like persistence where it'd be pretty complicated but the reward would be high)
+
 ## Items (Penn)
 - pick up and drop
 - isUsable
@@ -31,3 +39,5 @@
 
 - description
 - name
+
+## Script (Keira)
