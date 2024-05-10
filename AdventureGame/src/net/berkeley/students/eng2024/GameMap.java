@@ -45,4 +45,8 @@ public class GameMap {
         return rooms;
     }
 
+    public Passage[] getPassages() {
+        return passages;
+    }
+
 }
