@@ -8,13 +8,13 @@ public class Player {
     private Room currentRoom;
     private double hitpoints;
     public final double maxHitpoints = 100;
-    ArrayList<Item> items;
+    List<Item> items;
 
     // please keep this sorted (end of set is most recent)
-    private ArrayList<Room> visitedRooms;
+    private List<Room> visitedRooms;
 
     // please keep this sorted (end of set is most recent)
-    private ArrayList<Passage> passagesTaken;
+    private List<Passage> passagesTaken;
 
     public Player(Room startRoom) {
         this.hitpoints = maxHitpoints;

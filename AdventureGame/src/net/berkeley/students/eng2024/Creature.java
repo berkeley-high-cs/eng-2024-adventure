@@ -33,5 +33,7 @@ public class Creature implements Entity {
     public void setHitpoints(double hitpoints) {
         this.hitpoints = hitpoints;
     }
+    //Creatures
+    public static Creature GOBLIN_CHILD = new Creature("goblin child","They make look harmless, but growing up in the streets of Goblintopia, they're ruthless.", 5,true);
 
 }
