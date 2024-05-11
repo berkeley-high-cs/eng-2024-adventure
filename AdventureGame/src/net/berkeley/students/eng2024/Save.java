@@ -1,3 +1,5 @@
+package net.berkeley.students.eng2024;
+
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.File;
@@ -37,6 +39,22 @@ static class Save{
         GameMap gm=AdventureGame.map;
         Player p=AdventureGame.player;
         Room[] rooms=gm.getRooms();
+        Passage[] passages=gm.getPassages();
+        Item[] inventory=p.getItems().toArray();
+        String roomString=roomsToCSV(rooms);
+        String passageString=passagesToCSV(passages);
+        String inventoryString=inventoryToCSV(inventory);
+    }
+    public static String roomsToCSV(Room[] rooms){
+        StringBuilder sb=foo;
+        for(Room r: rooms){
+            
+        }
+    }
+    public static String passagesToCSV(Passage[] passes){
+        
+    }
+    public static String inventoryToCSV(Item[] inv){
         
     }
 }

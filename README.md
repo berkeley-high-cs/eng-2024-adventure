@@ -41,3 +41,9 @@
 - name
 
 ## Script (Keira)
+
+## Persistence (Finley)
+-static methods
+-figure out structure for text
+-write parse and condense methods
+-decide what parts of the player should save when loading the game (location, hp, )
