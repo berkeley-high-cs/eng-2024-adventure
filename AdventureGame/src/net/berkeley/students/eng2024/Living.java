@@ -22,8 +22,11 @@ public interface Living {
         }
     }
     default void activateEffects() {
-        for (Effect e : getEffects()) {
-            e.affect();
+        int i = 0;
+        while (i < getEffects().size()) {
+            if (getEffects().get(i).affect()) {
+                i++;
+            }
         }
     }
 

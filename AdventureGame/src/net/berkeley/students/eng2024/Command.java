@@ -196,7 +196,7 @@ public interface Command {
             Passage targetPassage = player.getRoom().getPassages().stream().filter(p -> p.connects(targetRoom))
                     .findFirst().get();
             AdventureGame.notify("notice", "You go back through the " + targetPassage.getName() + ".");
-            player.takePassage(targetPassage);
+            player.goBackThroughPassage(targetPassage);
             return true;
         }
 

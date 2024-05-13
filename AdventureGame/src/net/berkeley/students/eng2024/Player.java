@@ -10,6 +10,7 @@ public class Player implements Living {
     public final double maxHitpoints = 100;
     private ArrayList<Item> items;
     private ArrayList<Effect> effects;
+    private static final int MAX_ROOM_MEMORY = 10; //maximum amount of rooms and passages you can consecutively go back through
 
     // please keep this sorted (end of set is most recent)
     private List<Room> visitedRooms;
@@ -36,21 +37,26 @@ public class Player implements Living {
     }
 
     public void takePassage(Passage passage) {
-        if (passagesTaken.contains(passage)) {
-            passagesTaken.remove(passage);
-        }
         passagesTaken.add(passage);
+        if (passagesTaken.size() > MAX_ROOM_MEMORY) { passagesTaken.removeFirst(); }
         moveToRoom(passage.notPlayerRoom());
     }
 
     public void moveToRoom(Room room) {
         this.currentRoom = room;
-        if (visitedRooms.contains(room)) {
-            visitedRooms.remove(room);
-        }
         visitedRooms.add(room);
+        if (visitedRooms.size() > MAX_ROOM_MEMORY) { visitedRooms.removeFirst(); }
 
         AdventureGame.notify("borderless", room.describe());
+        activateEffects();
+    }
+
+    public void goBackThroughPassage(Passage passage) {
+        passagesTaken.removeLast();
+        visitedRooms.removeLast();
+        this.currentRoom = passage.notPlayerRoom();
+
+        AdventureGame.notify("borderless", currentRoom.describe());
         activateEffects();
     }
 
