@@ -41,3 +41,7 @@
 - name
 
 ## Script (Keira)
+
+## Procedural Generation
+-connecting rooms based on complimentary pairs
+-making an algorithm that will generate floors in a coherent way
