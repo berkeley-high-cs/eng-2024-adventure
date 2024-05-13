@@ -23,7 +23,7 @@ public interface Living {
     }
     default void activateEffects() {
         for (Effect e : getEffects()) {
-            e.affect(this);
+            e.affect();
         }
     }
 
