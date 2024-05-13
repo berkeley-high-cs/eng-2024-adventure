@@ -14,7 +14,7 @@ public class PoisonEffect implements Effect{
         this.potency = potency;
     }
 
-    public void affect() {
+    public boolean affect() {
         host.damage(potency);
         if (host instanceof Player) {
             AdventureGame.notify("notice","You are poisoned. Your hitpoints have been reduced by " + potency + ".");
@@ -26,7 +26,9 @@ public class PoisonEffect implements Effect{
         if (duration <= 0) {
             AdventureGame.notify("notice","The poison wears off.");
             host.removeEffect(this);
+            return false;
         }
+        return true;
     }
 
     public int getDuration() { return duration; }

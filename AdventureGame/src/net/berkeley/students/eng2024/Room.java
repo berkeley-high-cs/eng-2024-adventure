@@ -47,22 +47,6 @@ public class Room {
             }
             s += p.toString(this);
         }
-        if(entities.size() > 0){
-            s += "< In the room there is";
-        } else{
-            s+= "nothing is in the room.";
-        }
-        for(Entity i : entities){
-            s += " a " + i.name();
-            if(entities.indexOf(i) != entities.size()-1){
-                s+= ",";
-            }
-            if(entities.indexOf(i) == entities.size()-2){
-                s+= "and";
-            }
-            
-        }
-        s+= " >";
         return s;
     }
 
