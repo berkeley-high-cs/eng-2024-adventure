@@ -3,6 +3,7 @@ package net.berkeley.students.eng2024;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Stream;
 
 public interface Command {
 
@@ -162,8 +163,11 @@ public interface Command {
                 return true;
             }
             // if there is no obvious room to go to
-            // so i is only 0 if there was no specific move keyword, in which case we want to tell the user to use a keyword
-            if (i == 0) { return false;}
+            // so i is only 0 if there was no specific move keyword, in which case we want
+            // to tell the user to use a keyword
+            if (i == 0) {
+                return false;
+            }
             AdventureGame.notify("warning", "Please specify where you'd like to move to.");
             return true;
         }
@@ -217,22 +221,22 @@ public interface Command {
         }
 
         public boolean doCommand(String action) {
-            int i = Command.super.keywordIndex(keywords, action);
-            if (i == -1) {
-                return false;
-            }
-            action = action.substring(i);
-            Player player = AdventureGame.player;
             for (String s : statusKeywords) {
                 if (action.contains(s)) {
                     playerStatus();
                     return true;
                 }
             }
+            int i = Command.super.keywordIndex(keywords, action);
+            if (i == -1) {
+                return false;
+            }
+            action = action.substring(i);
+            Player player = AdventureGame.player;
 
             for (String s : roomKeywords) {
                 if (action.contains(s)) {
-                    AdventureGame.notify("info", player.getRoom().getDescription());
+                    System.out.println(player.getRoom().describe());
                     return true;
                 }
             }
@@ -247,7 +251,17 @@ public interface Command {
                 }
             }
 
-            // implement behavior for inspecting a creature
+            // inspecting something in the room the player is in
+            Stream<Entity> entities = player.getRoom().getEntities().stream();
+            List<String> entityNames = entities.map(x -> x.name()).toList();
+            for (String s : entityNames) {
+                if (action.contains(s)) {
+                    Entity entity = entities.filter(x -> x.name().equals(s)).findFirst().get();
+                    AdventureGame.notify("info", entity.name());
+                    AdventureGame.notify("info", entity.description());
+                    return true;
+                }
+            }
 
             // behavior if nothing to inspect was specified
             AdventureGame.notify("warning", "Please specify what you'd like to inspect.");

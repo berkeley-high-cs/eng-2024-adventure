@@ -4,8 +4,16 @@ Room 3: First bandit attack on you
 Room 4: Meeting the beautiful nurse (Filipp) horse who heals you in your dire moment and gives you (maybe a health potion?), she gives a quest as well that makes you got to room 5
 Room 5: Has what the nurse asked from you
 Room 6: you get another bandit attack
-Room 7: you get what the horse prince asked for (start going back)
+Room 7: You meet Boxer and he offers for you to take down the monarchy and start a land ruled equally by all horses. y/n? (continue to Room 8 if no)
+Room 8: you get what the horse prince asked for (start going back)
 
 Suggestion:
 *Because the map is 2d, do we want to structure more open ended? Not saying the current idea is bad, but we might need to think about how stuff would be laid out
 *Boxer (horse from Animal Farm) offers for you to take down the monarchy and start a land ruled equally by all horses
+
+Response:
+Suggestion 1: -I think we should go more open ended, especially since, for now, we're allowing the Player to go back and forth into rooms. 
+You guys would have to make the code so that once a player goes back into a room
+it doesn't trigger the same monster or item to respawn and make new dialouge/triggers for the certain characters when the Player comes back into the room. 
+Suggestion 2: Where would you want Boxer in the line up we have now, because for now I'm going to put it before. 
+Also let me know where that story will go for the ending if we have one.

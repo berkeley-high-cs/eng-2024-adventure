@@ -34,15 +34,15 @@ public class AdventureGame {
     }
 
     private void gameLoop() {
+        boolean success = true;
         while (true) {
-            String action = ask("What would you like to do?\n");
-            takeAction(action);
+            String action = ask(success ? "What would you like to do?\n" : "");
+            success = takeAction(action);
         }
     }
 
-    private static void takeAction(String action) {
+    private static boolean takeAction(String action) {
         boolean taken = false;
-
         for (Command command : commands) {
             if (command.doCommand(action)) {
                 taken = true;
@@ -54,8 +54,10 @@ public class AdventureGame {
             for (Command command : commands) {
                 s += command.toString() + " | ";
             }
-            notify("warning", s);
+            return false;
+            //notify("warning", s);
         }
+        return true;
     }
 
     public static void notify(String type, String message) {
@@ -73,7 +75,7 @@ public class AdventureGame {
                 break;
             case "longinfo": 
                 if (lines.size() == 1) {
-                    str = "< " + message + " >\n";
+                    str = "< " + message + " >";
                     break;
                 }
                 int longest = message.lines().reduce("", (a, b) -> a.length() > b.length() ? a : b).length();
@@ -84,7 +86,7 @@ public class AdventureGame {
                     else if (i == lines.size() - 1) { left = " \\"; right = "/"; }
                     else { left = "| "; right = " |"; }
                     String pad = longest - lines.get(i).length() <= 0 ? "" : String.valueOf(longest - lines.get(i).length() + 1);
-                    String format = "%s %s %" + pad + "s %n";
+                    String format = "%s %s %" + pad + "s " + (i == lines.size()-1 ? "" : "%n");
                     lines.set(i,String.format(format,left,lines.get(i), right));
                 }
                 str = lines.stream().reduce("", (a, b) -> a + b);

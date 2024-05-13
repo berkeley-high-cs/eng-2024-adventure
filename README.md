@@ -2,10 +2,10 @@
 
 ##TODO
 - Item interface implementation (probably a FoodItem class first)
-- Weapon item class
-- Creature interface implementation
+- Weapon item class (awaiting merging)
+- Creature interface implementation (awaiting merging)
 - After that ^ attacking
-- Effects
+- Effects (awaiting merging)
 - A visual map that the player can access? (this would probably be like persistence where it'd be pretty complicated but the reward would be high)
 
 ## Items (Penn)
