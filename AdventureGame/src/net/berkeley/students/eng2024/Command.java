@@ -267,6 +267,8 @@ public interface Command {
             AdventureGame.notify("warning", "Please specify what you'd like to inspect.");
             return true;
         }
+        
+        
 
         public String toString() {
             return "inspect";
