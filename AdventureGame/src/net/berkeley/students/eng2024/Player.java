@@ -8,14 +8,18 @@ public class Player implements Living {
     private Room currentRoom;
     private double hitpoints;
     public final double maxHitpoints = 100;
+<<<<<<< creature-item-room
+    List<Item> items;
+=======
     private ArrayList<Item> items;
     private ArrayList<Effect> effects;
+>>>>>>> main
 
     // please keep this sorted (end of set is most recent)
-    private ArrayList<Room> visitedRooms;
+    private List<Room> visitedRooms;
 
     // please keep this sorted (end of set is most recent)
-    private ArrayList<Passage> passagesTaken;
+    private List<Passage> passagesTaken;
 
     public Player(Room startRoom) {
         this.hitpoints = maxHitpoints;

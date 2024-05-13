@@ -10,4 +10,5 @@ public interface Item extends Entity{
     default void pickup(Player p) {
     }
 
+
 }

@@ -10,14 +10,14 @@ public class Room {
     // player can see through, e.g. a broken window (so like, it would say There is
     // a broken window, and
     // you can see [passageDescription] on the other side.)
-    private ArrayList<Entity> entities;
+    private List<Entity> entities;
     private String description;
     private String codeName;
-    private ArrayList<Passage> passages;
+    private List<Passage> passages;
     private String passageDescription;
 
-    public Room(String codeName, String passageDescription, String description, ArrayList<Passage> p,
-            ArrayList<Entity> items) {
+    public Room(String codeName, String passageDescription, String description, List<Passage> p,
+            List<Entity> items) {
         this.codeName = codeName;
         this.description = description;
         this.passageDescription = passageDescription;
@@ -26,7 +26,7 @@ public class Room {
         passages = p;
     }
 
-    public Room(String codeName, String passageDescription, String description, ArrayList<Entity> items) {
+    public Room(String codeName, String passageDescription, String description, List<Entity> items) {
         this.codeName = codeName;
         this.description = description;
         this.passageDescription = passageDescription;
@@ -47,6 +47,22 @@ public class Room {
             }
             s += p.toString(this);
         }
+        if(entities.size() > 0){
+            s += "< In the room there is";
+        } else{
+            s+= "nothing is in the room.";
+        }
+        for(Entity i : entities){
+            s += " a " + i.name();
+            if(entities.indexOf(i) != entities.size()-1){
+                s+= ",";
+            }
+            if(entities.indexOf(i) == entities.size()-2){
+                s+= "and";
+            }
+            
+        }
+        s+= " >";
         return s;
     }
 
@@ -72,7 +88,7 @@ public class Room {
         return passageDescription;
     }
 
-    public ArrayList<Entity> getEntities() {
+    public List<Entity> getEntities() {
         return entities;
     }
 

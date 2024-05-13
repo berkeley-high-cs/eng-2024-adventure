@@ -4,6 +4,7 @@ import java.io.Console;
 import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 import java.util.stream.Stream;
 
 public class AdventureGame {
@@ -12,7 +13,7 @@ public class AdventureGame {
     private static final Console console = System.console();
     private static final PrintWriter writer = console.writer();
     public static final Player player = new Player(map.getRooms()[0]);;
-    private static ArrayList<Command> commands = new ArrayList<>();
+    private static List<Command> commands = new ArrayList<>();
 
     public AdventureGame() {
         registerCommands();
@@ -64,7 +65,7 @@ public class AdventureGame {
     }
     public static String format(String type, String message) {
         String str = "";
-        ArrayList<String> lines = new ArrayList<String>(message.lines().toList());
+        List<String> lines = new ArrayList<String>(message.lines().toList());
         switch (type) {
             case "warning":
                 str = "!!! " + message + " !!!";

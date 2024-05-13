@@ -14,7 +14,7 @@ public class Weapon implements Item {
     }
 
     public String name() {
-        return this.name();
+        return this.name;
     }
 
     public String description() {
@@ -38,5 +38,6 @@ public class Weapon implements Item {
     public void pickup(Player p) {
         p.pickupItem(this);
     }
-
+    //Weapons
+    public static Weapon BRONZE_DAGGER = new Weapon(1, "bronze dagger", "Straight to the point.");
 }

@@ -91,7 +91,7 @@ public class Passage {
 
     public String getName() { return name; }
     public List<String> getAllNames() { 
-        ArrayList<String> names = new ArrayList<>(additionalNames);
+        List<String> names = new ArrayList<>(additionalNames);
         names.add(name);
         return names;
     }

@@ -13,7 +13,8 @@ public class GameMap {
     private Room[] rooms = { 
         new Room("starterRoom", "the starter room", "starter room description line 1\nstarter room description line 2\nstarter room description line 3", new ArrayList<>()),
         new Room("otherRoom", "the other room", "other room description", new ArrayList<>()),
-        new Room("otherOtherRoom", "the third room", "third room description", new ArrayList<>())
+        new Room("otherOtherRoom", "the third room", "third room description", new ArrayList<>()),
+        new Room("monsterRoom", "the monster room", "A monster lurks at the center of the room", new ArrayList<>(List.of(Weapon.BRONZE_DAGGER, Creature.GOBLIN_CHILD)))
     };
 
     //reference for passages:
@@ -26,7 +27,7 @@ public class GameMap {
         new Passage("broken window", List.of("window"), "crawl through the window, making sure not to hurt yourself on the shards of glass.", rooms[0], rooms[1], true),
         new Passage("trapdoor", "approach the trapdoor.\nIt appears to lack any sort of window, but you shrug that slightly worrying fact off and open it anyways.", rooms[2], rooms[0], false),
         new Passage("door", "hesitantly open the door, ignoring the large creaking sound and continue through it.", rooms[1], rooms[2], false),
-        
+        new Passage("foor", "as you approach the door, the wails from the other side grow louder",rooms[2],rooms[3],false)
     };
 
     public Room findRoom(String codeName) {
