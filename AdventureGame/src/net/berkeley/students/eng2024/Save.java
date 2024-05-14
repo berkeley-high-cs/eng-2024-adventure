@@ -44,17 +44,43 @@ static class Save{
         String roomString=roomsToCSV(rooms);
         String passageString=passagesToCSV(passages);
         String inventoryString=inventoryToCSV(inventory);
+        String visited=roomsToCSV(p.getVisitedRooms());
+        String passagesTaken=passagesToCSV(p.getPassages());
     }
     public static String roomsToCSV(Room[] rooms){
         StringBuilder sb=foo;
         for(Room r: rooms){
-            
+            sb.append("{"+roomToCSV(r)+"}");
         }
+        return sb.toString();
+    }
+    public static String roomToCSV(Room room){
+        StringBuilder foo;
+        foo.append(room.getName()+room.getDescription());
+        foo.append("pas{"+passagesToCSV(room.getPassages())+"}");
+        foo.append("ent{"+entitiesToCSV(room.getEntities())+"}");
+        return foo.toString();
     }
     public static String passagesToCSV(Passage[] passes){
-        
+        StringBuilder sb;
+        for(Passage p:passes){
+            sb.append("{"+passageToCSV(p)+"}");
+        }
+        return sb.toString();
+    }
+    public static String passageToCSV(Passage pass){
+
     }
     public static String inventoryToCSV(Item[] inv){
-        
+        StringBuilder sb;
+        for(Item i:inv){
+            sb.append("{"+itemToCSV(i)+"}");
+        }
+        return sb.toString();
+    }
+    public static String itemToCSV(Item i){
+
+    }
+    public static String entitiesToCSV(Entity[] entities){
     }
 }
