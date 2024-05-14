@@ -25,12 +25,14 @@ public class AdventureGame {
     // sort by precedence here
     private void registerCommands() {
         commands.add(new Command.ReturnCommand(player));
+        commands.add(new Command.InventoryCommand(player));
         commands.add(new Command.AttackCommand(player));
         commands.add(new Command.PickupCommand(player));
         commands.add(new Command.DropCommand(player));
         commands.add(new Command.InspectCommand(player));
         commands.add(new Command.MoveCommand(player));
-        
+        commands.add(new Command.UseCommand(player));
+
     }
 
     private void gameLoop() {
@@ -55,14 +57,15 @@ public class AdventureGame {
                 s += command.toString() + " | ";
             }
             return false;
-            //notify("warning", s);
+            // notify("warning", s);
         }
         return true;
     }
 
     public static void notify(String type, String message) {
-        System.out.println(format(type,message));
+        System.out.println(format(type, message));
     }
+
     public static String format(String type, String message) {
         String str = "";
         List<String> lines = new ArrayList<String>(message.lines().toList());
@@ -71,9 +74,6 @@ public class AdventureGame {
                 str = "!!! " + message + " !!!";
                 break;
             case "info":
-                str = "< " + message + " >";
-                break;
-            case "longinfo": 
                 if (lines.size() == 1) {
                     str = "< " + message + " >";
                     break;
@@ -82,12 +82,20 @@ public class AdventureGame {
                 for (int i = 0; i < lines.size(); i++) {
                     String left;
                     String right;
-                    if (i == 0) { left = " /"; right = "\\"; }
-                    else if (i == lines.size() - 1) { left = " \\"; right = "/"; }
-                    else { left = "| "; right = " |"; }
-                    String pad = longest - lines.get(i).length() <= 0 ? "" : String.valueOf(longest - lines.get(i).length() + 1);
-                    String format = "%s %s %" + pad + "s " + (i == lines.size()-1 ? "" : "%n");
-                    lines.set(i,String.format(format,left,lines.get(i), right));
+                    if (i == 0) {
+                        left = " /";
+                        right = "\\";
+                    } else if (i == lines.size() - 1) {
+                        left = " \\";
+                        right = "/";
+                    } else {
+                        left = "| ";
+                        right = " |";
+                    }
+                    String pad = longest - lines.get(i).length() <= 0 ? ""
+                            : String.valueOf(longest - lines.get(i).length() + 1);
+                    String format = "%s %s %" + pad + "s " + (i == lines.size() - 1 ? "" : "%n");
+                    lines.set(i, String.format(format, left, lines.get(i), right));
                 }
                 str = lines.stream().reduce("", (a, b) -> a + b);
                 break;

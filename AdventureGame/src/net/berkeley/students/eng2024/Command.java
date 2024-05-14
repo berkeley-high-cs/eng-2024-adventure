@@ -232,7 +232,6 @@ public interface Command {
                 return false;
             }
             action = action.substring(i);
-            Player player = AdventureGame.player;
 
             for (String s : roomKeywords) {
                 if (action.contains(s)) {
@@ -272,5 +271,62 @@ public interface Command {
             return "inspect";
         }
     };
+
+    public static record InventoryCommand(Player player) implements Command {
+        private static final String[] keywords = new String[] {
+                "inventory"
+        };
+
+        public boolean doCommand(String action) {
+            int i = Command.super.keywordIndex(keywords, action);
+            if (i == -1) {
+                return false;
+            }
+            action = action.substring(i);
+            List<Item> items = player.getItems();
+            if (items.size() == 0) {
+                AdventureGame.notify("notice","You don't have any items in your inventory.");
+                return true;
+            }
+            String s = "You've got a ";
+            for (int j = 0; j < items.size(); j++) {
+                s += items.get(j).name() + (j < items.size() - 2 ? ", a " : (j == items.size() - 2 ? ", and a " : "." ));
+            }     
+            AdventureGame.notify("info",s);
+            return true;
+        }
+
+        public String toString() {
+            return "inventory";
+        }
+    };
+
+    public static record UseCommand(Player player) implements Command {
+
+        public boolean doCommand(String action) {
+            String[] itemNames = (String[]) (player.getItems().stream().map(item -> item.name()).toArray());
+            int i = Command.super.keywordIndex(itemNames, action);
+            if (i == -1) {
+                return false;
+            }
+            action = action.substring(i);
+            List<Item> items = player.getItems();
+            if (items.size() == 0) {
+                AdventureGame.notify("notice","You don't have any items in your inventory.");
+                return true;
+            }
+            String s = "You've got a ";
+            for (int j = 0; j < items.size(); j++) {
+                s += items.get(j).name() + (j < items.size() - 2 ? ", a " : (j == items.size() - 2 ? ", and a " : "." ));
+            }     
+            AdventureGame.notify("info",s);
+            return true;
+        }
+
+        public String toString() {
+            return "inventory";
+        }
+    };
+
 
 }

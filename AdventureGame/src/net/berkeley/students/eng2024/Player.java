@@ -25,7 +25,7 @@ public class Player implements Living {
         visitedRooms = new ArrayList<>();
         passagesTaken = new ArrayList<>();
         effects = new ArrayList<>();
-        addEffect(new PoisonEffect(this, 3, 10));
+        pickupItem(new FoodItem("rotten apple", "Something you really shouldn't eat!", -10, List.of(new PoisonEffect(3,10)), "ate"));
     }
 
     public Room getRoom() {
@@ -90,6 +90,7 @@ public class Player implements Living {
     }
     public void addEffect(Effect e) {
         effects.add(e);
+        e.setHost(this);
     }
     public boolean removeEffect(Effect e) {
         return effects.remove(e);

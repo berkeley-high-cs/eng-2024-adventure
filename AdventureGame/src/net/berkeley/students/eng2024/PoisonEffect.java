@@ -4,12 +4,17 @@ public class PoisonEffect implements Effect{
 
     private final String name = "poison";
     private final boolean good = false;
+    private final String applicationString = "poisoned";
     private int duration;
     private double potency;
     private Living host;
 
     public PoisonEffect(Living host, int duration, double potency) {
         this.host = host;
+        this.duration = duration;
+        this.potency = potency;
+    }
+    public PoisonEffect(int duration, double potency) {
         this.duration = duration;
         this.potency = potency;
     }
@@ -33,6 +38,8 @@ public class PoisonEffect implements Effect{
 
     public int getDuration() { return duration; }
     public String getName() { return name; }
+    public String getApplicationString() { return applicationString;}
     public boolean isGood() { return good; }
     public Living getHost() { return host; }
+    public void setHost(Living host) { this.host = host;}
 }

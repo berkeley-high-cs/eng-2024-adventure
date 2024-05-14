@@ -11,6 +11,9 @@ public interface Living {
     public default void heal(double n) {
         setHitpoints(getHitpoints() + n);
     }
+    public default void changeHitpoints(double n) {
+        setHitpoints(getHitpoints() + n);
+    }
     public void setHitpoints(double n);
 
     public List<Effect> getEffects();

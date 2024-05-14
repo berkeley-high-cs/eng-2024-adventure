@@ -37,7 +37,7 @@ public class Room {
 
     // describe the room itself and all the items and everythin
     public String describe() {
-        String s = AdventureGame.format("longinfo",description);
+        String s = AdventureGame.format("info",description);
         for (Entity entity : entities) {
             s += AdventureGame.format("notice", "There is a " + entity.name() + ".");
         }

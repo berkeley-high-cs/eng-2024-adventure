@@ -44,6 +44,7 @@ public class Creature implements Entity, Living {
     }
     public void addEffect(Effect e) {
         effects.add(e);
+        e.setHost(this);
     }
     public boolean removeEffect(Effect e) {
         return effects.remove(e);
