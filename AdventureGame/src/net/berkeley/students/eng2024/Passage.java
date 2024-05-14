@@ -9,29 +9,29 @@ public class Passage {
     private String movementDescription;
     private Room r1;
     private Room r2;
-    private boolean accessible;
+    private boolean isSeeThrough;
 
-    public Passage(String name, String movementDescription, Room r1, Room r2, boolean accessible) {
+    public Passage(String name, String movementDescription, Room r1, Room r2, boolean isSeeThrough) {
         this.name = name;
         this.additionalNames = List.of();
         this.movementDescription = movementDescription;
         this.r1 = r1;
         this.r2 = r2;
-        this.accessible = accessible;
+        this.isSeeThrough = isSeeThrough;
         r1.addPassage(this);
         r2.addPassage(this);
     }
-    public Passage(String name, List<String> additionalNames, String movementDescription, Room r1, Room r2, boolean accessible) {
+    public Passage(String name, List<String> additionalNames, String movementDescription, Room r1, Room r2, boolean isSeeThrough) {
         this.name = name;
         this.additionalNames = additionalNames;
         this.movementDescription = movementDescription;
         this.r1 = r1;
         this.r2 = r2;
-        this.accessible = accessible;
+        this.isSeeThrough = isSeeThrough;
         r1.addPassage(this);
         r2.addPassage(this);
     }
-    public Passage(String name, String movementDescription, String name1, String name2, boolean accessible) {
+    public Passage(String name, String movementDescription, String name1, String name2, boolean isSeeThrough) {
         this.name = name;
         this.additionalNames = List.of();
         this.movementDescription = movementDescription;
@@ -39,11 +39,11 @@ public class Passage {
         Room r2 = AdventureGame.map.findRoom(name2);
         this.r1 = r1;
         this.r2 = r2;
-        this.accessible = accessible;
+        this.isSeeThrough = isSeeThrough;
         r1.addPassage(this);
         r2.addPassage(this);
     }
-    public Passage(String name, List<String> additionalNames, String movementDescription, String name1, String name2, boolean accessible) {
+    public Passage(String name, List<String> additionalNames, String movementDescription, String name1, String name2, boolean isSeeThrough) {
         this.name = name;
         this.additionalNames = additionalNames;
         this.movementDescription = movementDescription;
@@ -51,7 +51,7 @@ public class Passage {
         Room r2 = AdventureGame.map.findRoom(name2);
         this.r1 = r1;
         this.r2 = r2;
-        this.accessible = accessible;
+        this.isSeeThrough = isSeeThrough;
         r1.addPassage(this);
         r2.addPassage(this);
     }
@@ -85,8 +85,8 @@ public class Passage {
         return r2;
     }
 
-    public boolean isAccessible() {
-        return accessible;
+    public boolean isSeeThrough() {
+        return isSeeThrough;
     }
 
     public String getName() { return name; }
@@ -99,7 +99,7 @@ public class Passage {
     public String toString(Room r) {
         String s = "";
         s += "\n>>There is a " + name
-                    + (accessible
+                    + (isSeeThrough
                             ? ", and you can see " + notRoom(r).getPassageDescription() + " beyond it."
                             : ".");
         return s;
