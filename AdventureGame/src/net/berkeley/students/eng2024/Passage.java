@@ -64,7 +64,7 @@ public class Passage {
     }
 
     public Room notPlayerRoom() {
-        return r1 == AdventureGame.player.getRoom() ? r2 : r1;
+        return r1 == AdventureGame.player.room() ? r2 : r1;
     }
     public Room notRoom(Room r) {
         return r1 == r ? r2 : r1;
@@ -100,7 +100,7 @@ public class Passage {
         String s = "";
         s += "\n>>There is a " + name
                     + (accessible
-                            ? ", and you can see " + notRoom(r).getPassageDescription() + " beyond it."
+                            ? ", and you can see " + notRoom(r).passageDescription() + " beyond it."
                             : ".");
         return s;
     }

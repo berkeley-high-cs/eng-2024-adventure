@@ -54,7 +54,7 @@ public class Room {
         passages.add(passage);
     }
 
-    public List<Passage> getPassages() {
+    public List<Passage> passages() {
         return passages;
     }
 
@@ -64,15 +64,15 @@ public class Room {
         return passage.getRoom1() == this ? passage.getRoom2() : passage.getRoom1();
     }
 
-    public String getDescription() {
+    public String description() {
         return description;
     }
 
-    public String getPassageDescription() {
+    public String passageDescription() {
         return passageDescription;
     }
 
-    public List<Entity> getEntities() {
+    public List<Entity> entities() {
         return entities;
     }
 
@@ -84,7 +84,7 @@ public class Room {
         entities.add(item);
     }
 
-    public String getName() {
+    public String codeName() {
         return codeName;
     }
 

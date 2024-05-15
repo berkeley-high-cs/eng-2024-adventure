@@ -25,20 +25,23 @@ public class FoodItem implements UsableItem{
     public String description() {
         return description;
     }
-    public double getHealthChange() {
+    public double healthChange() {
         return healthChange;
     }
-    public List<Effect> getEffects() {
+    public List<Effect> effects() {
         return effects;
     }
-    public String getConsumptionString() {
+    public String consumptionString() {
         return consumptionString;
+    }
+    public String[] abbreviations() {
+        return abbreviations;
     }
 
     public void use(Player p) {
         String s = String.format("You %s the %s, %s %f health.",consumptionString,name,healthChange > 0 ? "and healed" : "and lost", healthChange);
         for (Effect effect : effects) {
-            s += String.format("The %s %s you.", name, effect.getApplicationString());
+            s += String.format("The %s %s you.", name, effect.applicationString());
             p.addEffect(effect);
         }
         p.changeHitpoints(healthChange);

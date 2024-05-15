@@ -50,7 +50,7 @@ public interface Command {
 
         private boolean pickupItem(Item item) {
             if (item != null) {
-                player.getRoom().removeEntity((Entity) item);
+                player.room().removeEntity((Entity) item);
                 item.pickup(player);
                 AdventureGame.notify("notice", "You picked up the " + item.name() + ".");
                 return true;
@@ -65,7 +65,7 @@ public interface Command {
             }
             action = action.substring(i);
             Item targetItem = null;
-            List<Entity> entities = player.getRoom().getEntities();
+            List<Entity> entities = player.room().entities();
             for (Entity entity : entities) {
                 if (entity instanceof Item && action.contains(entity.name())) {
                     targetItem = (Item) entity;
@@ -109,14 +109,14 @@ public interface Command {
             }
             action = action.substring(i);
             Item itemToDrop = null;
-            for (Item item : player.getItems()) {
+            for (Item item : player.items()) {
                 if (action.contains(item.name())) {
                     itemToDrop = item;
                     break;
                 }
             }
-            if (itemToDrop == null && player.getItems().size() > 0) {
-                itemToDrop = player.getItems().getLast();
+            if (itemToDrop == null && player.items().size() > 0) {
+                itemToDrop = player.items().getLast();
             }
             if (dropItem(itemToDrop)) {
                 return true;
@@ -151,9 +151,9 @@ public interface Command {
             action = action.substring(i);
             // getting the different passages of the current room and checking to see if
             // message contains them
-            Room pRoom = player.getRoom();
+            Room pRoom = player.room();
             Passage targetPassage = null;
-            for (Passage passage : pRoom.getPassages()) {
+            for (Passage passage : pRoom.passages()) {
                 if (passage.matches(action)) {
                     targetPassage = passage;
                     break;
@@ -189,11 +189,11 @@ public interface Command {
             }
             action = action.substring(i);
             Room targetRoom = player.lastRoom();
-            if (targetRoom == player.getRoom()) {
+            if (targetRoom == player.room()) {
                 AdventureGame.notify("warning", "There is no room to go back to.");
                 return true;
             }
-            Passage targetPassage = player.getRoom().getPassages().stream().filter(p -> p.connects(targetRoom))
+            Passage targetPassage = player.room().passages().stream().filter(p -> p.connects(targetRoom))
                     .findFirst().get();
             AdventureGame.notify("notice", "You go back through the " + targetPassage.getName() + ".");
             player.goBackThroughPassage(targetPassage);
@@ -217,7 +217,7 @@ public interface Command {
         };
 
         private void playerStatus() {
-            AdventureGame.notify("notice", "You have " + player.getHitpoints() + " health.");
+            AdventureGame.notify("notice", "You have " + player.hitpoints() + " health.");
         }
 
         public boolean doCommand(String action) {
@@ -235,15 +235,15 @@ public interface Command {
 
             for (String s : roomKeywords) {
                 if (action.contains(s)) {
-                    System.out.println(player.getRoom().describe());
+                    System.out.println(player.room().describe());
                     return true;
                 }
             }
 
-            List<String> itemNames = player.getItems().stream().map(x -> x.name()).toList();
+            List<String> itemNames = player.items().stream().map(x -> x.name()).toList();
             for (String s : itemNames) {
                 if (action.contains(s)) {
-                    Item item = player.getItems().stream().filter(x -> x.name().equals(s)).findFirst().get();
+                    Item item = player.items().stream().filter(x -> x.name().equals(s)).findFirst().get();
                     AdventureGame.notify("info", item.name());
                     AdventureGame.notify("info", item.description());
                     return true;
@@ -251,7 +251,7 @@ public interface Command {
             }
 
             // inspecting something in the room the player is in
-            Stream<Entity> entities = player.getRoom().getEntities().stream();
+            Stream<Entity> entities = player.room().entities().stream();
             List<String> entityNames = entities.map(x -> x.name()).toList();
             for (String s : entityNames) {
                 if (action.contains(s)) {
@@ -283,7 +283,7 @@ public interface Command {
                 return false;
             }
             action = action.substring(i);
-            List<Item> items = player.getItems();
+            List<Item> items = player.items();
             if (items.size() == 0) {
                 AdventureGame.notify("notice","You don't have any items in your inventory.");
                 return true;
@@ -304,13 +304,13 @@ public interface Command {
     public static record UseCommand(Player player) implements Command {
 
         public boolean doCommand(String action) {
-            String[] itemNames = (String[]) (player.getItems().stream().map(item -> item.name()).toArray());
+            String[] itemNames = (String[]) (player.items().stream().map(item -> item.name()).toArray());
             int i = Command.super.keywordIndex(itemNames, action);
             if (i == -1) {
                 return false;
             }
             action = action.substring(i);
-            List<Item> items = player.getItems();
+            List<Item> items = player.items();
             if (items.size() == 0) {
                 AdventureGame.notify("notice","You don't have any items in your inventory.");
                 return true;

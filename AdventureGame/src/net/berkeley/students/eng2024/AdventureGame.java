@@ -12,12 +12,12 @@ public class AdventureGame {
     public static final GameMap map = new GameMap();
     private static final Console console = System.console();
     private static final PrintWriter writer = console.writer();
-    public static final Player player = new Player(map.getRooms()[0]);;
+    public static final Player player = new Player(map.rooms()[0]);;
     private static List<Command> commands = new ArrayList<>();
 
     public AdventureGame() {
         registerCommands();
-        player.moveToRoom(player.getRoom());
+        player.moveToRoom(player.room());
         gameLoop();
 
     }

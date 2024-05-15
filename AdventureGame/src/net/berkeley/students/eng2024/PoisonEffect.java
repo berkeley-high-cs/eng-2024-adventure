@@ -36,10 +36,10 @@ public class PoisonEffect implements Effect{
         return true;
     }
 
-    public int getDuration() { return duration; }
-    public String getName() { return name; }
-    public String getApplicationString() { return applicationString;}
-    public boolean isGood() { return good; }
-    public Living getHost() { return host; }
+    public int duration() { return duration; }
+    public String name() { return name; }
+    public String applicationString() { return applicationString;}
+    public boolean good() { return good; }
+    public Living host() { return host; }
     public void setHost(Living host) { this.host = host;}
 }
