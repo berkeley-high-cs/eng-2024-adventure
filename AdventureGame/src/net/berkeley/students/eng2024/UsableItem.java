@@ -2,11 +2,12 @@ package net.berkeley.students.eng2024;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 
 public interface UsableItem extends Item {
     public void use(Player p);
 
-    public String[] abbreviations();
+    public List<String> abbreviations();
 
     public String usageString();
 
@@ -14,13 +15,9 @@ public interface UsableItem extends Item {
         return "";
     }
 
-    public default String[] allNames() {
-        ArrayList<String> names = new ArrayList<>();
-        if (abbreviations().length > 0) {
-            names.addAll(Arrays.asList(abbreviations()));
-        }
-        
+    public default List<String> allNames() {
+        ArrayList<String> names = new ArrayList<>(abbreviations());  
         names.add(name());
-        return (String[]) (names.toArray());
+        return names;
     }
 }

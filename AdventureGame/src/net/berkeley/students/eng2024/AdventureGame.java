@@ -30,15 +30,16 @@ public class AdventureGame {
         commands.add(new Command.PickupCommand(player));
         commands.add(new Command.DropCommand(player));
         commands.add(new Command.InspectCommand(player));
-        commands.add(new Command.MoveCommand(player));
         commands.add(new Command.UseCommand(player));
+        commands.add(new Command.MoveCommand(player));
+        
 
     }
 
     private void gameLoop() {
         boolean success = true;
         while (true) {
-            String action = ask(success ? "What would you like to do?\n" : "");
+            String action = ask(success ? "\n" : "");
             success = takeAction(action);
         }
     }
@@ -63,7 +64,7 @@ public class AdventureGame {
     }
 
     public static void notify(String type, String message) {
-        System.out.println(format(type, message));
+        System.out.print(format(type, message));
     }
 
     public static String format(String type, String message) {
@@ -106,6 +107,14 @@ public class AdventureGame {
                 str = lines.stream().map(s -> "--- " + s + " ---\n").reduce("", (a, b) -> a + b);
         }
         return str;
+    }
+
+    public static String numf(double num) {
+        num = Math.abs(num);
+        if (num % 1 == 0) {
+            return String.format("%d",(int)num);
+        }
+        return String.format("%.2f",num);
     }
 
     // make sure all choices in the game are in lower case!

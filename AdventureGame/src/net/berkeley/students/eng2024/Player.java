@@ -27,9 +27,12 @@ public class Player implements Living {
         effects = new ArrayList<>();
         pickupItem(new FoodItem.FoodItemBuilder("rotten apple", "Something you really shouldn't eat!", -10)
         .addEffect(new PoisonEffect(3,10))
-        .addUsageString("ate")
         .addUsageFlavorText("Why the fuck did I eat that shit?")
-        .addAbbreviations("apple")
+        .toFoodItem());
+        pickupItem(new FoodItem.FoodItemBuilder("golden apple", "Something you really should eat!", 20)
+        .addEffect(new RegenerationEffect(3,10))
+        .addUsageFlavorText("Delicious...")
+        .addAbbreviations("gold apple")
         .toFoodItem());
     }
 

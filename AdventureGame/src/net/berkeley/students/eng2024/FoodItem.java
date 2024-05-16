@@ -6,7 +6,7 @@ import java.util.List;
 public class FoodItem implements UsableItem{
     
     private String name;
-    private String[] abbreviations;
+    private List<String> abbreviations;
     private String description;
     private double healthChange;
     private List<Effect> effects;
@@ -14,7 +14,7 @@ public class FoodItem implements UsableItem{
     private String usageString;
     private String usageFlavorText;
 
-    private FoodItem(String name, String description, double healthChange, List<Effect> effects, String usageString, String usageFlavorText, String[] abbreviations) {
+    private FoodItem(String name, String description, double healthChange, List<Effect> effects, String usageString, String usageFlavorText, List<String> abbreviations) {
         this.name = name;
         this.description = description;
         this.healthChange = healthChange;
@@ -38,7 +38,7 @@ public class FoodItem implements UsableItem{
     public String usageString() {
         return usageString;
     }
-    public String[] abbreviations() {
+    public List<String> abbreviations() {
         return abbreviations;
     }
     public String usageFlavorText() {
@@ -46,19 +46,23 @@ public class FoodItem implements UsableItem{
     }
 
     public void use(Player p) {
-        String s = String.format("You %s the %s, %s %f health.",usageString,name,healthChange > 0 ? "and healed" : "and lost", healthChange);
+        String s = String.format("You %s the %s, %s %s health. ",usageString,name,healthChange > 0 ? "and healed" : "and lost", AdventureGame.numf(healthChange));
         for (Effect effect : effects) {
-            s += String.format("The %s %s you.", name, effect.applicationString());
+            s += String.format("The %s %s.", name, effect.applicationString());
             p.addEffect(effect);
         }
         p.changeHitpoints(healthChange);
+        
         AdventureGame.notify("notice",s);
+        if (usageFlavorText.length() > 0) {
+            AdventureGame.notify("info",usageFlavorText);
+        }
     }
 
     public static class FoodItemBuilder {
 
         private String name;
-        private String[] abbreviations;
+        private List<String> abbreviations;
         private String description;
         private double healthChange;
         private List<Effect> effects;
@@ -71,12 +75,14 @@ public class FoodItem implements UsableItem{
             this.description = description;
             this.healthChange = healthChange;
             effects = new ArrayList<>();
-            abbreviations = new String[] {};
+            abbreviations = new ArrayList<>();
             usageString = "consumed";
             usageFlavorText = "";
         }
         public FoodItemBuilder addAbbreviations(String... abbreviations) {
-            this.abbreviations = abbreviations;
+            for (String a : abbreviations) {
+                this.abbreviations.add(a);
+            }
             return this;
         }
         public FoodItemBuilder addEffect(Effect effect) {

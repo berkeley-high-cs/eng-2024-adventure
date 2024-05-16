@@ -20,7 +20,7 @@ public interface Command {
         }
         return -1;
     }
-    default String InverseKeywordIndex(String[] keywords, String str) {
+    default String InverseKeywordIndex(List<String> keywords, String str) {
         for (String s : keywords) {
             int i = str.indexOf(s);
             if (i > -1) {
@@ -283,7 +283,7 @@ public interface Command {
 
     public static record InventoryCommand(Player player) implements Command {
         private static final String[] keywords = new String[] {
-                "inventory", "i have"
+                "inventory", "i have", "inv"
         };
 
         public boolean doCommand(String action) {
@@ -316,9 +316,21 @@ public interface Command {
             "use"
         };
 
+        private List<String> playerItems(Stream<UsableItem> usables) {
+            ArrayList<String> itemNames = new ArrayList<>();
+            for (UsableItem i : usables.toList()) {
+                for (String s : i.allNames()) {
+                    itemNames.add(s);
+                }
+            }
+            return itemNames;
+        }
+        private Stream<UsableItem> playerUsables() {
+            return player.items().stream().filter(item -> item instanceof UsableItem).map(item -> (UsableItem)item);
+        }
+
         public boolean doCommand(String action) {
-            Stream<UsableItem> playerUsables = player.items().stream().filter(item -> item instanceof UsableItem).map(item -> (UsableItem)item);
-            String[] itemNames = (String[]) (playerUsables.flatMap(item -> Stream.of(item.allNames())).toArray());
+            ArrayList<String> itemNames = new ArrayList<>(playerItems(playerUsables()));
             String itemName = Command.super.InverseKeywordIndex(itemNames, action);
             if (itemName.equals("")) {
                 if (Command.super.keywordIndex(keywords,action) != -1) {
@@ -326,12 +338,12 @@ public interface Command {
                 } 
                 return false;
             }
-            UsableItem item = playerUsables.filter(i -> Arrays.asList(i.allNames()).contains(itemName)).findFirst().get();
 
-            AdventureGame.notify("notice","You " + item.usageString() + " the " + item.name() + ".");
-            if (item.usageFlavorText().length() > 0) {
-                AdventureGame.notify("info",item.usageFlavorText());
-            }
+            UsableItem item = playerUsables().filter(i -> i.allNames().contains(itemName)).findFirst().get();
+
+            item.use(player);
+
+            
             return true;
         }
 
