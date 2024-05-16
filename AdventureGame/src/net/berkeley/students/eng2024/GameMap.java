@@ -12,9 +12,27 @@ public class GameMap {
 
     private Room[] rooms = { 
         new Room("starterRoom", "the starter room", "starter room description line 1\nstarter room description line 2\nstarter room description line 3", new ArrayList<>()),
-        new Room("otherRoom", "the other room", "other room description", new ArrayList<>()),
-        new Room("otherOtherRoom", "the third room", "third room description", new ArrayList<>()),
-        new Room("monsterRoom", "the monster room", "A monster lurks at the center of the room", new ArrayList<>(List.of(Weapon.BRONZE_DAGGER, Creature.GOBLIN_CHILD)))
+        new Room("emptyRoom", "encounter with the princess and an attack from bandits", "other room description", new ArrayList<>()),
+        new Room("floweryMeadow", "a blank room with nothing but a field", "third room description", new ArrayList<>()),
+        new Room("banditCamp", "the bandit room. Seems scary", "A group of bandits lurks at the center of the room", new ArrayList<>(List.of(Weapon.BRONZE_DAGGER, Creature.GOBLIN_CHILD))),
+        new Room("nurseRoom", "a medic bay with a nurse in the middle of it", "nurse room objects", new ArrayList<>()),
+        new Room("floweryMeadow", "meadow with pure roses", "meadow objects", new ArrayList<>()),
+        new Room("boxerRoom", "boxing ring with a strong opponent in the middle of it", "boxing gloves maybe", new ArrayList<>()),
+        new Room("banditRoom", "group of bandits", "bandit loot", new ArrayList<>()),
+        new Room("banditRoomTwo", "second bandit room", "bandit loot", new ArrayList<>()),
+        new Room("itemRoom", "treasure room", "treasure", new ArrayList<>()),
+        new Room("bucketRoom", "ominous looking bucket is in the middle", "bucket", new ArrayList<>()),
+        new Room("banditRoomThree", "bandits", "bandit loot", new ArrayList<>()),
+        new Room("mailRoom", "mailroom with a single letter", "letter", new ArrayList<>()),
+        new Room("lakeRoom", "large lake", "water", new ArrayList<>()),
+        new Room("meadow", "large meadow", "flowers", new ArrayList<>()),
+        new Room("itemRoomTwo", "empty room with loot", "loot", new ArrayList<>()),
+        new Room("revolutionCamp", "small camp of tough looking horses", "revolutionary items", new ArrayList<>()),
+        new Room("emptyFountain", "dry fountain with no water", "fountain dust", new ArrayList<>()),
+        new Room("meadowRoom", "meadow with fields of daisies", "flowers", new ArrayList<>()),
+        new Room("guardRoom", "tough looking guards", "guard loot", new ArrayList<>()),
+        new Room("bossRoom", "a huge fighter", "loot from the fighter", new ArrayList<>()),
+        new Room("questItemRoom", "a tree stump with something in the middle", "quest item", new ArrayList<>()),
     };
 
     //reference for passages:
