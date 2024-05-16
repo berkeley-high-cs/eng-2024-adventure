@@ -20,6 +20,15 @@ public interface Command {
         }
         return -1;
     }
+    default String InverseKeywordIndex(String[] keywords, String str) {
+        for (String s : keywords) {
+            int i = str.indexOf(s);
+            if (i > -1) {
+                return s;
+            }
+        }
+        return "";
+    }
 
     public static record AttackCommand(Player player) implements Command {
         private static final String[] keywords = new String[] {
@@ -274,7 +283,7 @@ public interface Command {
 
     public static record InventoryCommand(Player player) implements Command {
         private static final String[] keywords = new String[] {
-                "inventory"
+                "inventory", "i have"
         };
 
         public boolean doCommand(String action) {
@@ -303,23 +312,26 @@ public interface Command {
 
     public static record UseCommand(Player player) implements Command {
 
+        private static final String[] keywords = new String[] {
+            "use"
+        };
+
         public boolean doCommand(String action) {
-            String[] itemNames = (String[]) (player.items().stream().map(item -> item.name()).toArray());
-            int i = Command.super.keywordIndex(itemNames, action);
-            if (i == -1) {
+            Stream<UsableItem> playerUsables = player.items().stream().filter(item -> item instanceof UsableItem).map(item -> (UsableItem)item);
+            String[] itemNames = (String[]) (playerUsables.flatMap(item -> Stream.of(item.allNames())).toArray());
+            String itemName = Command.super.InverseKeywordIndex(itemNames, action);
+            if (itemName.equals("")) {
+                if (Command.super.keywordIndex(keywords,action) != -1) {
+                    AdventureGame.notify("warning","Please specify what you wish to use.");
+                } 
                 return false;
             }
-            action = action.substring(i);
-            List<Item> items = player.items();
-            if (items.size() == 0) {
-                AdventureGame.notify("notice","You don't have any items in your inventory.");
-                return true;
+            UsableItem item = playerUsables.filter(i -> Arrays.asList(i.allNames()).contains(itemName)).findFirst().get();
+
+            AdventureGame.notify("notice","You " + item.usageString() + " the " + item.name() + ".");
+            if (item.usageFlavorText().length() > 0) {
+                AdventureGame.notify("info",item.usageFlavorText());
             }
-            String s = "You've got a ";
-            for (int j = 0; j < items.size(); j++) {
-                s += items.get(j).name() + (j < items.size() - 2 ? ", a " : (j == items.size() - 2 ? ", and a " : "." ));
-            }     
-            AdventureGame.notify("info",s);
             return true;
         }
 
