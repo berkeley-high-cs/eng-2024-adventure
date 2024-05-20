@@ -336,7 +336,7 @@ public interface Command {
             String itemName = Command.super.InverseKeywordIndex(itemNames, action);
             if (itemName.equals("")) {
                 if (Command.super.keywordIndex(keywords,action) != -1) {
-                    AdventureGame.notify("warning","Please specify what you wish to use.");
+                    AdventureGame.notify("warning","That is not a usable item, or you don't have that.");
                 } 
                 return false;
             }
@@ -354,5 +354,41 @@ public interface Command {
         }
     };
 
+    public static record EatCommand(Player player) implements Command {
+
+        private static final String[] keywords = new String[] {
+            "eat", "consume", "drink", "devour"
+        };
+
+        private List<FoodItem> playerFoodItems() {
+            return player.items().stream().filter(item -> item instanceof FoodItem).map(item -> (FoodItem)item).toList();
+        }
+
+        public boolean doCommand(String action) {
+            String eatMechanism = "";
+            for (String s : keywords) {
+                if (action.contains(s)) {
+                    eatMechanism = s;
+                    break;
+                }
+                return false;
+            }
+            int i = Command.super.keywordIndex(keywords, action);
+            action = action.substring(i);
+            List<FoodItem> food = playerFoodItems();
+            for (FoodItem f : food) {
+                if (action.contains(f.name())) {
+                    f.use(player);
+                    return true;
+                }
+            }
+            AdventureGame.notify("warning","That is not an edible item, or you don't have that.");
+            return true;
+        }
+
+        public String toString() {
+            return "inventory";
+        }
+    };
 
 }

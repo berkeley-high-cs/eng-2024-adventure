@@ -29,6 +29,7 @@ public class AdventureGame {
         commands.add(new Command.AttackCommand(player));
         commands.add(new Command.PickupCommand(player));
         commands.add(new Command.DropCommand(player));
+        commands.add(new Command.EatCommand(player));
         commands.add(new Command.InspectCommand(player));
         commands.add(new Command.UseCommand(player));
         commands.add(new Command.MoveCommand(player));
