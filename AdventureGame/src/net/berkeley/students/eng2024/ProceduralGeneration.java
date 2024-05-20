@@ -11,7 +11,6 @@ public class ProceduralGeneration {
         for(int i = 0; i < numRooms; i++){
             rooms[i] = new Room("Room " + i, "Room number " + i, "The " + i + "th room.", null);
         }
-        
         return rooms;
     }
     public Passage[] generatePassages(Room[] rooms){
