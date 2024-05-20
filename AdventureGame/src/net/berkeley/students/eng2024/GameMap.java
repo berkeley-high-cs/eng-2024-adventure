@@ -50,7 +50,7 @@ public class GameMap {
 
     public Room findRoom(String codeName) {
         for (Room room : rooms) {
-            if (room.getName().equals(codeName)) { 
+            if (room.codeName().equals(codeName)) { 
                 return room;
             }
         }
@@ -60,11 +60,11 @@ public class GameMap {
     public GameMap() {
     }
     //these two get methods are also used as the mutator methods. DO NOT edit these arrays if you don't want them edited in this location.
-    public Room[] getRooms() {
+    public Room[] rooms() {
         return rooms;
     }
 
-    public Passage[] getPassages() {
+    public Passage[] passages() {
         return passages;
     }
 

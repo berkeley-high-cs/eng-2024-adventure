@@ -25,14 +25,22 @@ public class Player implements Living {
         visitedRooms = new ArrayList<>();
         passagesTaken = new ArrayList<>();
         effects = new ArrayList<>();
-        addEffect(new PoisonEffect(this, 3, 10));
+        pickupItem(new FoodItem.FoodItemBuilder("rotten apple", "Something you really shouldn't eat!", -10)
+        .addEffect(new PoisonEffect(3,10))
+        .addUsageFlavorText("Why the fuck did I eat that shit?")
+        .toFoodItem());
+        pickupItem(new FoodItem.FoodItemBuilder("golden apple", "Something you really should eat!", 20)
+        .addEffect(new RegenerationEffect(3,10))
+        .addUsageFlavorText("Delicious...")
+        .addAbbreviations("gold apple")
+        .toFoodItem());
     }
 
-    public Room getRoom() {
+    public Room room() {
         return this.currentRoom;
     }
 
-    public double getHitpoints() {
+    public double hitpoints() {
         return this.hitpoints;
     }
 
@@ -60,7 +68,7 @@ public class Player implements Living {
         activateEffects();
     }
 
-    public List<Room> getVisitedRooms() {
+    public List<Room> visitedRooms() {
         return visitedRooms;
     }
 
@@ -72,7 +80,7 @@ public class Player implements Living {
         this.hitpoints = n;
     }
 
-    public List<Item> getItems() {
+    public List<Item> items() {
         return items;
     }
 
@@ -85,11 +93,12 @@ public class Player implements Living {
         items.add(item);
     }
 
-    public List<Effect> getEffects() {
+    public List<Effect> effects() {
         return effects;
     }
     public void addEffect(Effect e) {
         effects.add(e);
+        e.setHost(this);
     }
     public boolean removeEffect(Effect e) {
         return effects.remove(e);
