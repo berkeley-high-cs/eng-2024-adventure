@@ -1,11 +1,9 @@
 # Eng 2024 Adventure
 
 ##TODO
-- Item interface implementation (probably a FoodItem class first)
-- Weapon item class (awaiting merging)
-- Creature interface implementation (awaiting merging)
+- Weapon item class
+- Creature interface implementation
 - After that ^ attacking
-- Effects (awaiting merging)
 - A visual map that the player can access? (this would probably be like persistence where it'd be pretty complicated but the reward would be high)
 
 ## Items (Penn)
