@@ -147,6 +147,7 @@ public interface Command {
 
         private boolean moveThrough(Passage passage) {
             if (passage != null) {
+                System.out.println();
                 AdventureGame.notify("notice", "You " + passage.getMovementDescription());
                 player.takePassage(passage);
                 return true;
@@ -204,6 +205,7 @@ public interface Command {
             }
             Passage targetPassage = player.room().passages().stream().filter(p -> p.connects(targetRoom))
                     .findFirst().get();
+            System.out.println();
             AdventureGame.notify("notice", "You go back through the " + targetPassage.getName() + ".");
             player.goBackThroughPassage(targetPassage);
             return true;

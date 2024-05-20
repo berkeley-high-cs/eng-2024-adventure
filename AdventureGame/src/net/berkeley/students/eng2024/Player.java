@@ -25,15 +25,6 @@ public class Player implements Living {
         visitedRooms = new ArrayList<>();
         passagesTaken = new ArrayList<>();
         effects = new ArrayList<>();
-        pickupItem(new FoodItem.FoodItemBuilder("rotten apple", "Something you really shouldn't eat!", -10)
-        .addEffect(new PoisonEffect(3,10))
-        .addUsageFlavorText("Why the fuck did I eat that shit?")
-        .toFoodItem());
-        pickupItem(new FoodItem.FoodItemBuilder("golden apple", "Something you really should eat!", 20)
-        .addEffect(new RegenerationEffect(3,10))
-        .addUsageFlavorText("Delicious...")
-        .addAbbreviations("gold apple")
-        .toFoodItem());
     }
 
     public Room room() {
