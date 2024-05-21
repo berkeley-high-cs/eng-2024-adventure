@@ -2,6 +2,7 @@ package net.berkeley.students.eng2024;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 public class Player implements Living {
 
@@ -93,6 +94,15 @@ public class Player implements Living {
     }
     public boolean removeEffect(Effect e) {
         return effects.remove(e);
+    }
+    public Optional<Weapon> activeWeapon(){
+        return items().stream().filter((i) -> i instanceof Weapon).map(i -> (Weapon) i).findFirst();
+    }
+    public Optional<Weapon> activeWeapon(String weaponName){
+        //!! there is a cleaner way to do this but im pressed on time and it's not very important
+        Optional<Weapon> weapon = items().stream().filter((i) -> i instanceof Weapon).map(i -> (Weapon) i).filter(w -> weaponName.contains(w.name())).findFirst();
+        if(weapon.isPresent()) return weapon;
+        return activeWeapon();
     }
 
 }

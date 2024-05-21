@@ -2,6 +2,7 @@ package net.berkeley.students.eng2024;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 public class Room {
 
@@ -86,6 +87,9 @@ public class Room {
 
     public String codeName() {
         return codeName;
+    }
+    public Optional<Creature> containsCreature(String creatureName){
+        return entities().stream().filter(e -> e instanceof Creature).map(e -> (Creature) e).filter(c -> creatureName.contains(c.name())).findFirst();
     }
 
 }
