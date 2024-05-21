@@ -3,7 +3,6 @@ package net.berkeley.students.eng2024;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Stream;
 
 public interface Command {
@@ -45,18 +44,6 @@ public interface Command {
                 return false;
             }
             action = action.substring(i);
-            Optional<Weapon> weapon = player.activeWeapon(action);
-            if(weapon.isEmpty()){
-                AdventureGame.notify("warning", "There is nothing to attack with");
-                return false;
-            }
-            Optional<Creature> target = player.room().containsCreature(action);
-            if(target.isEmpty()){
-                AdventureGame.notify("warning", "A creature with the specified name cannot be found");
-                return false;
-            }
-            target.get().damageByWeapon(weapon.get());
-            AdventureGame.notify("notice", target.get().status());
             return true;
         }
 
