@@ -3,7 +3,6 @@ package net.berkeley.students.eng2024;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Stream;
 
 public interface Command {
@@ -45,18 +44,6 @@ public interface Command {
                 return false;
             }
             action = action.substring(i);
-            Optional<Weapon> weapon = player.activeWeapon(action);
-            if(weapon.isEmpty()){
-                AdventureGame.notify("warning", "There is nothing to attack with");
-                return false;
-            }
-            Optional<Creature> target = player.room().containsCreature(action);
-            if(target.isEmpty()){
-                AdventureGame.notify("warning", "A creature with the specified name cannot be found");
-                return false;
-            }
-            target.get().damageByWeapon(weapon.get());
-            AdventureGame.notify("notice", target.get().status());
             return true;
         }
 
@@ -160,6 +147,7 @@ public interface Command {
 
         private boolean moveThrough(Passage passage) {
             if (passage != null) {
+                System.out.println();
                 AdventureGame.notify("notice", "You " + passage.getMovementDescription());
                 player.takePassage(passage);
                 return true;
@@ -217,6 +205,7 @@ public interface Command {
             }
             Passage targetPassage = player.room().passages().stream().filter(p -> p.connects(targetRoom))
                     .findFirst().get();
+            System.out.println();
             AdventureGame.notify("notice", "You go back through the " + targetPassage.getName() + ".");
             player.goBackThroughPassage(targetPassage);
             return true;
@@ -347,7 +336,7 @@ public interface Command {
             String itemName = Command.super.InverseKeywordIndex(itemNames, action);
             if (itemName.equals("")) {
                 if (Command.super.keywordIndex(keywords,action) != -1) {
-                    AdventureGame.notify("warning","Please specify what you wish to use.");
+                    AdventureGame.notify("warning","That is not a usable item, or you don't have that.");
                 } 
                 return false;
             }
@@ -365,5 +354,41 @@ public interface Command {
         }
     };
 
+    public static record EatCommand(Player player) implements Command {
+
+        private static final String[] keywords = new String[] {
+            "eat", "consume", "drink", "devour"
+        };
+
+        private List<FoodItem> playerFoodItems() {
+            return player.items().stream().filter(item -> item instanceof FoodItem).map(item -> (FoodItem)item).toList();
+        }
+
+        public boolean doCommand(String action) {
+            String eatMechanism = "";
+            for (String s : keywords) {
+                if (action.contains(s)) {
+                    eatMechanism = s;
+                    break;
+                }
+                return false;
+            }
+            int i = Command.super.keywordIndex(keywords, action);
+            action = action.substring(i);
+            List<FoodItem> food = playerFoodItems();
+            for (FoodItem f : food) {
+                if (action.contains(f.name())) {
+                    f.use(player);
+                    return true;
+                }
+            }
+            AdventureGame.notify("warning","That is not an edible item, or you don't have that.");
+            return true;
+        }
+
+        public String toString() {
+            return "inventory";
+        }
+    };
 
 }
