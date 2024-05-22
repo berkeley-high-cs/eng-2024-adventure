@@ -19,7 +19,6 @@ public class ProceduralGeneration {
                 "The " + i + "th room.", 
                 new ArrayList<>()
             );
-            System.out.println("Generated room: " + i);
         }
         return rooms;
     }
@@ -35,10 +34,8 @@ public class ProceduralGeneration {
                 rooms[i + 1], 
                 false
             );
-            System.out.println("Generated passage: " + i + " to " + (i + 1) + " via " + passageNames[i % passageNames.length]);
         }
-        //passages[numRooms-1] = new Passage("foor", "You open foor and walk through", rooms[2], rooms[0], false);
-        //
+
         return passages;
     }
 }
