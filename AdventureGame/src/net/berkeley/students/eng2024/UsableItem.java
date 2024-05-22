@@ -1,7 +1,6 @@
 package net.berkeley.students.eng2024;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 public interface UsableItem extends Item {

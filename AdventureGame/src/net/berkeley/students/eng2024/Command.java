@@ -1,7 +1,6 @@
 package net.berkeley.students.eng2024;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Stream;
 
@@ -365,10 +364,8 @@ public interface Command {
         }
 
         public boolean doCommand(String action) {
-            String eatMechanism = "";
             for (String s : keywords) {
                 if (action.contains(s)) {
-                    eatMechanism = s;
                     break;
                 }
                 return false;
