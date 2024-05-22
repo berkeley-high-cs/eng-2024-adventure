@@ -11,7 +11,7 @@ public class AdventureGame {
 
     public static final GameMap map = new GameMap();
     private static final GameMap proceduralMap = new GameMap(5); // Is temporary, num of rooms should be selected elsewhere
-    private static final boolean isProcedural = true; // Is temporary, a better way to select if procedural or not should be added later
+    private static final boolean isProcedural = false; // Is temporary, a better way to select if procedural or not should be added later
     private static final Console console = System.console();
     private static final PrintWriter writer = console.writer();
     public static final Player player = new Player(isProcedural ? proceduralMap.getRooms()[0] : map.getRooms()[0]); // Checks which map to use
