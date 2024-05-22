@@ -1,17 +1,13 @@
 package net.berkeley.students.eng2024;
 
 import java.io.Console;
-import java.io.PrintWriter;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
-import java.util.stream.Stream;
 
 public class AdventureGame {
 
     public static final GameMap map = new GameMap();
     private static final Console console = System.console();
-    private static final PrintWriter writer = console.writer();
     public static final Player player = new Player(map.rooms()[0]);;
     private static List<Command> commands = new ArrayList<>();
 
@@ -54,12 +50,7 @@ public class AdventureGame {
             }
         }
         if (!taken) {
-            String s = "Sorry, we don't recognize this command. Try:  ";
-            for (Command command : commands) {
-                s += command.toString() + " | ";
-            }
             return false;
-            // notify("warning", s);
         }
         return true;
     }
