@@ -1,7 +1,6 @@
 # Eng 2024 Adventure
 
 ##TODO
-- Weapon item class
 - Creature interface implementation
 - After that ^ attacking
 - A visual map that the player can access? (this would probably be like persistence where it'd be pretty complicated but the reward would be high)
