@@ -21,11 +21,11 @@ public class GenerateLayout{
       map[4][4]=new Room("000;center;(n,e,s,w);(items);(monsters)");
     }
   
-    public static generateLayout(){
+    //public static generateLayout(){
       //find a room with a door
       //query a room with a matching door and at least one other door
       //recurse
-    }
+    //}
   
     public static void printMap(){
       for(int i=0;i<map.length;i++){
