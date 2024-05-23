@@ -6,4 +6,6 @@ public interface Entity {
     public String description();
 
     public String name();
+
+    
 }

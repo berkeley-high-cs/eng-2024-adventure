@@ -34,6 +34,10 @@ class Npc extends Creature{
         return lines.getTriggers();
     }
 
+    public boolean isIntelligent(){
+        return true;
+    }
+
 
 
 

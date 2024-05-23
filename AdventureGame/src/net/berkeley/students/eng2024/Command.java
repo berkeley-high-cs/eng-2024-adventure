@@ -205,6 +205,7 @@ public interface Command {
         }
     };
 
+
     public static record InspectCommand(Player player) implements Command {
         private static final String[] keywords = new String[] {
                 "check out", "inspect", "look at", "view", "check"
@@ -266,6 +267,51 @@ public interface Command {
             // behavior if nothing to inspect was specified
             AdventureGame.notify("warning", "Please specify what you'd like to inspect.");
             return true;
+        }
+
+        public static record ConverseCommand(Player player) implements Command{
+            ArrayList<npc> npcs = player.getRoom().getNpcs();
+            ArrayList<String> npcsNames = new ArrayList<String>(npcs.stream().map(npc -> npc.name()).collect());
+
+            public static final String[] keywords = {"say"};
+
+            public static final String[] getDiologOptions = {"dioOptions"};
+
+            public final String[] talkables = npcsNames;
+
+            
+
+            public boolean doCommand(String action){
+
+
+                for (String opts : getDiologOptions) {
+                    if(action.contains(opts)){
+                        int i = Command.super.keywordIndex(getDiologOptions, action);
+
+                        action.substring(i);
+                        for (npc npc : npcs) {
+                            if(npc.name().equals(action)){
+                                
+                            }
+                        }
+                        
+                        return true;
+                    }
+                }
+
+                int i = Command.super.keywordIndex(keywords, action);
+                if (i == -1) {
+                    return false;
+                }
+                action = action.substring(i);
+         
+                
+                for (npc npc : npcs) {
+                    if(npc.name().equals(action)){
+                        Conversation con = new Conversation(npc);
+                    }
+                }
+            }
         }
         
         
