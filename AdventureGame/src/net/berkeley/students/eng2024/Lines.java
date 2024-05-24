@@ -1,5 +1,6 @@
-import java.util.ArrayList;
-import java.util.Arrays;
+package net.berkeley.students.eng2024;
+
+import java.util.*;
 
 public class Lines{
     private String hello;
@@ -26,10 +27,10 @@ public class Lines{
         this.confused = confused;
 
     }
-    public String getUniqueLines(){
+    public ArrayList<String> getUniqueLines(){
         return this.uniqueLines;
     } 
-    public String getTriggers(){
+    public ArrayList<String> getTriggers(){
         return this.uniqueLineTriggers;
     }
     public String getHello(){

@@ -100,11 +100,11 @@ public class Room {
         entities.add(item);
     }
 
-    public ArrayList<npc> getNpcs(){
-        ArrayList<npc> ar = new ArrayList<npc>();
+    public ArrayList<Npc> getNpcs(){
+        ArrayList<Npc> ar = new ArrayList<Npc>();
         entities.forEach(e -> {
             if(e.isIntelligent()){
-                ar.add(e);
+                ar.add((Npc)e);
             }
         });
         return ar;

@@ -7,13 +7,18 @@ public class Conversation implements Event{
         this.npc = npc;
     }
 
-    public String[] getPossibleAsks(){
+    public String getPossibleAsks(){
         ArrayList<String> listAr = new ArrayList<String>();
         listAr.addAll(Lines.helloTriggers);
         listAr.addAll(Lines.byeTriggers);
         listAr.addAll(this.npc.getUiqueTriggers());
 
-        return listAr.toArray();
+
+        String str = "";
+        for(int i = 0; i < listAr.size(); i++){
+            str += listAr.get(i) + ", ";
+        }
+        return str;
     }
 
         

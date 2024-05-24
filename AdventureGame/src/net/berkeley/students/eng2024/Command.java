@@ -3,6 +3,7 @@ package net.berkeley.students.eng2024;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 public interface Command {
@@ -270,45 +271,53 @@ public interface Command {
         }
 
         public static record ConverseCommand(Player player) implements Command{
-            ArrayList<npc> npcs = player.getRoom().getNpcs();
-            ArrayList<String> npcsNames = new ArrayList<String>(npcs.stream().map(npc -> npc.name()).collect());
+            //say (npcname) hello
+            //dioOption (npcname)
 
             public static final String[] keywords = {"say"};
 
             public static final String[] getDiologOptions = {"dioOptions"};
 
-            public final String[] talkables = npcsNames;
-
-            
-
             public boolean doCommand(String action){
-
+            
+                ArrayList<Npc> npcs = player.getRoom().getNpcs();
+                ArrayList<String> npcsNames = new ArrayList<String>(npcs.stream().map(npc -> npc.name()).collect(Collectors.toList()));
 
                 for (String opts : getDiologOptions) {
                     if(action.contains(opts)){
                         int i = Command.super.keywordIndex(getDiologOptions, action);
 
                         action.substring(i);
-                        for (npc npc : npcs) {
+                        for (Npc npc : npcs) {
                             if(npc.name().equals(action)){
-                                
+                                Conversation conv = new Conversation(npc);
+                                AdventureGame.notify("info", conv.getPossibleAsks());
+                                return true;
+
                             }
+                    
+
                         }
+                        AdventureGame.notify("error", "No npc with given name");
+                        return false;
                         
-                        return true;
                     }
                 }
 
                 int i = Command.super.keywordIndex(keywords, action);
                 if (i == -1) {
+
                     return false;
                 }
                 action = action.substring(i);
-         
                 
-                for (npc npc : npcs) {
-                    if(npc.name().equals(action)){
-                        Conversation con = new Conversation(npc);
+                
+                for (Npc npc : npcs) {
+                    if(action.contains(npc.name())){
+                        Conversation conv = new Conversation(npc);
+                        int i = Command.super.keywordIndex(npc.name(), action);
+
+
                     }
                 }
             }

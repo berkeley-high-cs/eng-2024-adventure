@@ -30,7 +30,7 @@ class Npc extends Creature{
         return lines.returnResponse(ask);
     }
 
-    public String getUiqueTriggers(){//gets Triggers for unique npc lines
+    public ArrayList<String> getUiqueTriggers(){//gets Triggers for unique npc lines
         return lines.getTriggers();
     }
 

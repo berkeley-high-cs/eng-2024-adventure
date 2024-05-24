@@ -38,6 +38,12 @@ public class Weapon implements Item {
     public void pickup(Player p) {
         p.pickupItem(this);
     }
+
+    
+    public boolean isIntelligent() {
+        return false;
+    }
     //Weapons
     public static Weapon BRONZE_DAGGER = new Weapon(1, "bronze dagger", "Straight to the point.");
+
 }
