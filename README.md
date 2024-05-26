@@ -39,6 +39,14 @@
 
 ## Script (Keira)
 
+
 ## Procedural Generation (Amon)
 - connecting rooms based on complimentary pairs
 - making an algorithm that will generate floors in a coherent way
+
+## Persistence (Finley)
+-static methods
+-figure out structure for text
+-write parse and condense methods
+-decide what parts of the player should save when loading the game (location, hp, )
+

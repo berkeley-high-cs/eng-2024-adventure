@@ -63,6 +63,10 @@ public class Player implements Living {
         return visitedRooms;
     }
 
+    public List<Passage> getPassages(){
+        return passagesTaken;
+    }
+
     public Room lastRoom() {
         return visitedRooms.size() == 1 ? currentRoom : visitedRooms.get(visitedRooms.size() - 2);
     }
