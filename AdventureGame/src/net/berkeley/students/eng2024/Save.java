@@ -56,7 +56,7 @@ static class Save{
     }
     public static String roomToCSV(Room room){
         StringBuilder foo;
-        foo.append(room.getName()+room.getDescription());
+        foo.append(room.getName()+";"+room.getDescription());
         foo.append("pas{"+passagesToCSV(room.getPassages())+"}");
         foo.append("ent{"+entitiesToCSV(room.getEntities())+"}");
         return foo.toString();
@@ -69,7 +69,14 @@ static class Save{
         return sb.toString();
     }
     public static String passageToCSV(Passage pass){
-
+        StringBuilder foo;
+        foo.append(pass.getName()+"{");
+        for(String n:pass.getAllNames()){
+            foo.append(n+",");
+        }
+        foo.deleteCharAt(foo.length()-1);
+        foo.append("}"+pass.getMovementDescription()+"{"+roomToCSV(pass.getRoom1())+"},{"+roomToCSV(pass.getRoom2())+"}"+pass.isAccessible());
+        return foo.toString();
     }
     public static String inventoryToCSV(Item[] inv){
         StringBuilder sb;
@@ -79,8 +86,16 @@ static class Save{
         return sb.toString();
     }
     public static String itemToCSV(Item i){
-
+        StringBuilder foo;
+        
     }
     public static String entitiesToCSV(Entity[] entities){
+        StringBuilder sb;
+        for(Entity e:entities){
+            sb.append("{"+entityToCSV(i)+"}");
+        }
+    }
+    public static String entityToCSV(Entity e){
+
     }
 }
