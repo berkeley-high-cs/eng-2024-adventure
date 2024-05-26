@@ -3,18 +3,20 @@ package net.berkeley.students.eng2024;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Player {
+public class Player implements Living {
 
     private Room currentRoom;
     private double hitpoints;
     public final double maxHitpoints = 100;
-    ArrayList<Item> items;
+    private ArrayList<Item> items;
+    private ArrayList<Effect> effects;
+    private static final int MAX_ROOM_MEMORY = 10; //maximum amount of rooms and passages you can consecutively go back through
 
     // please keep this sorted (end of set is most recent)
-    private ArrayList<Room> visitedRooms;
+    private List<Room> visitedRooms;
 
     // please keep this sorted (end of set is most recent)
-    private ArrayList<Passage> passagesTaken;
+    private List<Passage> passagesTaken;
 
     public Player(Room startRoom) {
         this.hitpoints = maxHitpoints;
@@ -22,36 +24,42 @@ public class Player {
         items = new ArrayList<>();
         visitedRooms = new ArrayList<>();
         passagesTaken = new ArrayList<>();
-        
+        effects = new ArrayList<>();
     }
 
-    public Room getRoom() {
+    public Room room() {
         return this.currentRoom;
     }
 
-    public double getHitpoints() {
+    public double hitpoints() {
         return this.hitpoints;
     }
 
     public void takePassage(Passage passage) {
-        if (passagesTaken.contains(passage)) {
-            passagesTaken.remove(passage);
-        }
         passagesTaken.add(passage);
+        if (passagesTaken.size() > MAX_ROOM_MEMORY) { passagesTaken.removeFirst(); }
         moveToRoom(passage.notPlayerRoom());
     }
 
     public void moveToRoom(Room room) {
         this.currentRoom = room;
-        if (visitedRooms.contains(room)) {
-            visitedRooms.remove(room);
-        }
         visitedRooms.add(room);
+        if (visitedRooms.size() > MAX_ROOM_MEMORY) { visitedRooms.removeFirst(); }
 
         AdventureGame.notify("borderless", room.describe());
+        activateEffects();
     }
 
-    public List<Room> getVisitedRooms() {
+    public void goBackThroughPassage(Passage passage) {
+        passagesTaken.removeLast();
+        visitedRooms.removeLast();
+        this.currentRoom = passage.notPlayerRoom();
+
+        AdventureGame.notify("borderless", currentRoom.describe());
+        activateEffects();
+    }
+
+    public List<Room> visitedRooms() {
         return visitedRooms;
     }
 
@@ -63,11 +71,11 @@ public class Player {
         return visitedRooms.size() == 1 ? currentRoom : visitedRooms.get(visitedRooms.size() - 2);
     }
 
-    public void setHitpoints(double hitpoints) {
-        this.hitpoints = hitpoints;
+    public void setHitpoints(double n) {
+        this.hitpoints = n;
     }
 
-    public List<Item> getItems() {
+    public List<Item> items() {
         return items;
     }
 
@@ -78,6 +86,17 @@ public class Player {
 
     public void pickupItem(Item item) {
         items.add(item);
+    }
+
+    public List<Effect> effects() {
+        return effects;
+    }
+    public void addEffect(Effect e) {
+        effects.add(e);
+        e.setHost(this);
+    }
+    public boolean removeEffect(Effect e) {
+        return effects.remove(e);
     }
 
 }
