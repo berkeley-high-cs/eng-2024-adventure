@@ -100,7 +100,7 @@ public class Passage {
         String s = "";
         s += "\n>>There is a " + name
                     + (isSeeThrough
-                            ? ", and you can see " + notRoom(r).getPassageDescription() + " beyond it."
+                            ? ", and you can see " + notRoom(r).passageDescription() + " beyond it."
                             : ".");
         return s;
     }
