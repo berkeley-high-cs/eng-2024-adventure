@@ -1,19 +1,40 @@
-Room 1: Hub (you get your sword and other items)
-Room 2: Meeting the horse princess(Beatrice Horseman), she gives you a quest
-Room 3: First bandit attack on you
-Room 4: Meeting the beautiful nurse (Filipp) horse who heals you in your dire moment and gives you (maybe a health potion?), she gives a quest as well that makes you got to room 5
-Room 5: Has what the nurse asked from you
-Room 6: you get another bandit attack
-Room 7: You meet Boxer and he offers for you to take down the monarchy and start a land ruled equally by all horses. y/n? (continue to Room 8 if no)
-Room 8: you get what the horse prince asked for (start going back)
+Room 1A: Hub (you get your sword and other items) Room that contains items, you get swords, ect. 
+Room 1B: First bandit attack on you(All your stuff gets taken), Meeting the horse princess(Beatrice Horseman), she gives you a quest to find the Magic Sword, (Gives health potion)
+Room 1C: Empty Meadow
+Room 1D: Infrimiary: NPC nurse Filipp
+Room 1E: Meadow
+Room 2A: You meet Boxer and he offers for you to take down the monarchy and start a land ruled equally by all horses. If you take him to the revolutionary camp, he will give you a good item
+Room 2B: Bandit attack
+Room 2C: Bandit attack
+Room 2D: Find axe
+Room 2E: Empty bucket
+Room 3A: Bandit attack
+Room 3B: Healing potion
+Room 3C: General store
+Room 3D: Meadow 
+Room 3E: Bandit attack
+Room 4A: Bandits
+Room 4B: Letter revealing princess was behind bandit attacks
+Room 4C: Lake
+Room 4D: Meadow
+Room 4E: Armor
+Room 5A: Revolutionary camp, bringing boxer gives you boxer's horn, which does a very strong attack by calling in horses
+Room 5B: Empty fountain, when water is put in with the bucket the door to 6B unlocks
+Room 5C: Meadow
+Room 5D: Meadow
+Room 5E: Guards (tougher than bandits)
+Room 5F: Princess beatrice asks for the sword, will fight you when you give it - Play end message depending on if you defeat her.
+Room 6B: Locked room with Magic Sword
+
+
 
 Suggestion:
-*Because the map is 2d, do we want to structure more open ended? Not saying the current idea is bad, but we might need to think about how stuff would be laid out
-*Boxer (horse from Animal Farm) offers for you to take down the monarchy and start a land ruled equally by all horses
+How much damage can the magic sword use? Is the player able to use it?
+We need to add the damage amount each item is, same with some npcs/enemies. 
+Princess asks you to bring her the magic sword so she can get rid of all the bandits in the land
+Boxer asks you for help taking down the princess, says the bandits are a result of poor social services and high taxes forcing people to turn to crime
+Bring Boxer to the revolutionary camp and get Boxer's horn, which has an attack description of a bunch of horses charging
+princess is final fight, team up with boxer for good end
 
-Response:
-Suggestion 1: -I think we should go more open ended, especially since, for now, we're allowing the Player to go back and forth into rooms. 
-You guys would have to make the code so that once a player goes back into a room
-it doesn't trigger the same monster or item to respawn and make new dialouge/triggers for the certain characters when the Player comes back into the room. 
-Suggestion 2: Where would you want Boxer in the line up we have now, because for now I'm going to put it before. 
-Also let me know where that story will go for the ending if we have one.
+Map:
+https://docs.google.com/spreadsheets/d/1oI6CExh-ambIW0BpwZdp0LSolZlGEdk4PzYIdC2nHvY/edit?usp=sharing
