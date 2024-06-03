@@ -11,6 +11,7 @@ public class Player implements Living {
 
     private ArrayList<Item> items;
     private ArrayList<Effect> effects;
+    private static final int MAX_ROOM_MEMORY = 10; //maximum amount of rooms and passages you can consecutively go back through
 
     // please keep this sorted (end of set is most recent)
     private List<Room> visitedRooms;
@@ -25,37 +26,41 @@ public class Player implements Living {
         visitedRooms = new ArrayList<>();
         passagesTaken = new ArrayList<>();
         effects = new ArrayList<>();
-        addEffect(new PoisonEffect(this, 3, 10));
     }
 
-    public Room getRoom() {
+    public Room room() {
         return this.currentRoom;
     }
 
-    public double getHitpoints() {
+    public double hitpoints() {
         return this.hitpoints;
     }
 
     public void takePassage(Passage passage) {
-        if (passagesTaken.contains(passage)) {
-            passagesTaken.remove(passage);
-        }
         passagesTaken.add(passage);
+        if (passagesTaken.size() > MAX_ROOM_MEMORY) { passagesTaken.removeFirst(); }
         moveToRoom(passage.notPlayerRoom());
     }
 
     public void moveToRoom(Room room) {
         this.currentRoom = room;
-        if (visitedRooms.contains(room)) {
-            visitedRooms.remove(room);
-        }
         visitedRooms.add(room);
+        if (visitedRooms.size() > MAX_ROOM_MEMORY) { visitedRooms.removeFirst(); }
 
         AdventureGame.notify("borderless", room.describe());
         activateEffects();
     }
 
-    public List<Room> getVisitedRooms() {
+    public void goBackThroughPassage(Passage passage) {
+        passagesTaken.removeLast();
+        visitedRooms.removeLast();
+        this.currentRoom = passage.notPlayerRoom();
+
+        AdventureGame.notify("borderless", currentRoom.describe());
+        activateEffects();
+    }
+
+    public List<Room> visitedRooms() {
         return visitedRooms;
     }
 
@@ -67,7 +72,7 @@ public class Player implements Living {
         this.hitpoints = n;
     }
 
-    public List<Item> getItems() {
+    public List<Item> items() {
         return items;
     }
 
@@ -80,11 +85,12 @@ public class Player implements Living {
         items.add(item);
     }
 
-    public List<Effect> getEffects() {
+    public List<Effect> effects() {
         return effects;
     }
     public void addEffect(Effect e) {
         effects.add(e);
+        e.setHost(this);
     }
     public boolean removeEffect(Effect e) {
         return effects.remove(e);

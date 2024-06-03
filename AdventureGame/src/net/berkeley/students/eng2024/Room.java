@@ -37,7 +37,7 @@ public class Room {
 
     // describe the room itself and all the items and everythin
     public String describe() {
-        String s = AdventureGame.format("longinfo",description);
+        String s = AdventureGame.format("info",description);
         for (Entity entity : entities) {
             s += AdventureGame.format("notice", "There is a " + entity.name() + ".");
         }
@@ -47,22 +47,6 @@ public class Room {
             }
             s += p.toString(this);
         }
-        if(entities.size() > 0){
-            s += "< In the room there is";
-        } else{
-            s+= "nothing is in the room.";
-        }
-        for(Entity i : entities){
-            s += " a " + i.name();
-            if(entities.indexOf(i) != entities.size()-1){
-                s+= ",";
-            }
-            if(entities.indexOf(i) == entities.size()-2){
-                s+= "and";
-            }
-            
-        }
-        s+= " >";
         return s;
     }
 
@@ -70,7 +54,7 @@ public class Room {
         passages.add(passage);
     }
 
-    public List<Passage> getPassages() {
+    public List<Passage> passages() {
         return passages;
     }
 
@@ -80,15 +64,15 @@ public class Room {
         return passage.getRoom1() == this ? passage.getRoom2() : passage.getRoom1();
     }
 
-    public String getDescription() {
+    public String description() {
         return description;
     }
 
-    public String getPassageDescription() {
+    public String passageDescription() {
         return passageDescription;
     }
 
-    public List<Entity> getEntities() {
+    public List<Entity> entities() {
         return entities;
     }
 
@@ -110,7 +94,7 @@ public class Room {
         return ar;
     }
 
-    public String getName() {
+    public String codeName() {
         return codeName;
     }
 

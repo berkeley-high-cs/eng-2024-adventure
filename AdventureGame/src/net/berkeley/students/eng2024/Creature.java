@@ -19,7 +19,7 @@ public class Creature implements Entity, Living {
         effects = new ArrayList<>();
     }
 
-    public double getHitpoints() {
+    public double hitpoints() {
         return this.hitpoints;
     }
 
@@ -39,11 +39,12 @@ public class Creature implements Entity, Living {
         this.hitpoints = n;
     }
 
-    public List<Effect> getEffects() {
+    public List<Effect> effects() {
         return effects;
     }
     public void addEffect(Effect e) {
         effects.add(e);
+        e.setHost(this);
     }
     public boolean removeEffect(Effect e) {
         return effects.remove(e);
