@@ -48,4 +48,5 @@ public class Weapon implements Item {
 
     public static Weapon MAGIC_SWORD = new Weapon(5, "magic sword", "quest item requested from the princess.");
     //Idk how strong you guys want the sword to be
+    public static Weapon IRON_SWORD = new Weapon(2, "Iron sword", "Just a normal sword");
 }

@@ -54,5 +54,8 @@ public class Creature implements Entity, Living {
     }
     //Creatures
     public static Creature GOBLIN_CHILD = new Creature("goblin child","They make look harmless, but growing up in the streets of Goblintopia, they're ruthless.", 5,true);
-
+    public static Creature Nurse = new Creature("Filipp the nurse", "A long haired, dangerously good looking Nurse by the name of Filipp", 1000000000, false);
+    public static Creature Boxer = new Creature("a steadfast gentlehorse", "worn down from years of battle", 100, false);
+    public static Creature Guards = new Creature("loyalist bastards with the monarchy crest on their chests", "they look mean, scary, tough, anti-revolutionary, and slightly horseaphobic", 20, true);
+    public static Creature Princess = new Creature("the royal princes","monarchist without a single bone of care or love for her subjects", 100, true);
 }
