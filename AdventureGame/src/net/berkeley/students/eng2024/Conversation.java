@@ -1,3 +1,5 @@
+package net.berkeley.students.eng2024;
+
 import java.lang.reflect.Array;
 import java.util.ArrayList;
 
@@ -21,7 +23,7 @@ public class Conversation implements Event{
         return str;
     }
 
-        
+
     public String diolog(String ask){
         return npc.diolog(ask);
     }
