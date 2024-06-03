@@ -84,6 +84,16 @@ public class Room {
         entities.add(item);
     }
 
+    public ArrayList<Npc> getNpcs(){
+        ArrayList<Npc> ar = new ArrayList<Npc>();
+        entities.forEach(e -> {
+            if(e.isIntelligent()){
+                ar.add((Npc)e);
+            }
+        });
+        return ar;
+    }
+
     public String codeName() {
         return codeName;
     }

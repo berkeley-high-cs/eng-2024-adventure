@@ -2,6 +2,7 @@ package net.berkeley.students.eng2024;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 public interface Command {
@@ -49,7 +50,7 @@ public interface Command {
         public String toString() {
             return "attack";
         }
-    };
+    }
 
     public static record PickupCommand(Player player) implements Command {
         private static final String[] keywords = new String[] {
@@ -94,7 +95,7 @@ public interface Command {
             return "pickup";
         }
 
-    };
+    }
 
     public static record DropCommand(Player player) implements Command {
         private static final String[] keywords = new String[] {
@@ -137,7 +138,7 @@ public interface Command {
         public String toString() {
             return "drop";
         }
-    };
+    }
 
     public static record MoveCommand(Player player) implements Command {
         private static final String[] keywords = new String[] {
@@ -184,7 +185,7 @@ public interface Command {
         public String toString() {
             return "move";
         }
-    };
+    }
 
     public static record ReturnCommand(Player player) implements Command {
         private static final String[] keywords = new String[] {
@@ -213,7 +214,8 @@ public interface Command {
         public String toString() {
             return "go back";
         }
-    };
+    }
+
 
     public static record InspectCommand(Player player) implements Command {
         private static final String[] keywords = new String[] {
@@ -276,11 +278,65 @@ public interface Command {
             AdventureGame.notify("warning", "Please specify what you'd like to inspect.");
             return true;
         }
+    }
 
-        public String toString() {
-            return "inspect";
-        }
-    };
+  public static record ConverseCommand(Player player) implements Command {
+            //say (npcname) hello
+            //dioOption (npcname)
+
+            public static final String[] keywords = {"say"};
+
+            public static final String[] getDiologOptions = {"dioOptions"};
+
+            public boolean doCommand(String action) {
+
+                ArrayList<Npc> npcs = player.room().getNpcs();
+                ArrayList<String> npcsNames = new ArrayList<String>(npcs.stream().map(npc -> npc.name()).collect(Collectors.toList()));
+
+                for (String opts : getDiologOptions) {
+                    if(action.contains(opts)){
+                        int i = Command.super.keywordIndex(getDiologOptions, action);
+
+                        action.substring(i);
+                        for (Npc npc : npcs) {
+                            if(npc.name().equals(action)){
+                                Conversation conv = new Conversation(npc);
+                                AdventureGame.notify("info", conv.getPossibleAsks());
+                                return true;
+
+                            }
+
+
+                        }
+                        AdventureGame.notify("error", "No npc with given name");
+                        return false;
+
+                    }
+                }
+
+                int j = Command.super.keywordIndex(keywords, action);
+                if (j == -1) {
+
+                    return false;
+                }
+                action = action.substring(j);
+
+
+                for (Npc npc : npcs) {
+                    if(action.contains(npc.name())){
+                        Conversation conv = new Conversation(npc);
+                        //int k = Command.super.keywordIndex(npc.codeName(), action);
+
+
+                    }
+                }
+                return false;
+            }
+
+            public String toString() {
+              return "inspect";
+            }
+        };
 
     public static record InventoryCommand(Player player) implements Command {
         private static final String[] keywords = new String[] {
@@ -301,7 +357,7 @@ public interface Command {
             String s = "You've got a ";
             for (int j = 0; j < items.size(); j++) {
                 s += items.get(j).name() + (j < items.size() - 2 ? ", a " : (j == items.size() - 2 ? ", and a " : "." ));
-            }     
+            }
             AdventureGame.notify("info",s);
             return true;
         }
@@ -336,7 +392,7 @@ public interface Command {
             if (itemName.equals("")) {
                 if (Command.super.keywordIndex(keywords,action) != -1) {
                     AdventureGame.notify("warning","That is not a usable item, or you don't have that.");
-                } 
+                }
                 return false;
             }
 
@@ -344,7 +400,7 @@ public interface Command {
 
             item.use(player);
 
-            
+
             return true;
         }
 
@@ -356,11 +412,11 @@ public interface Command {
     public static record EatCommand(Player player) implements Command {
 
         private static final String[] keywords = new String[] {
-            "eat", "consume", "drink", "devour"
+          "eat", "consume", "drink", "devour"
         };
 
         private List<FoodItem> playerFoodItems() {
-            return player.items().stream().filter(item -> item instanceof FoodItem).map(item -> (FoodItem)item).toList();
+          return player.items().stream().filter(item -> item instanceof FoodItem).map(item -> (FoodItem)item).toList();
         }
 
         public boolean doCommand(String action) {
@@ -384,8 +440,8 @@ public interface Command {
         }
 
         public String toString() {
-            return "inventory";
+          return "inventory";
         }
-    };
+    }
 
 }

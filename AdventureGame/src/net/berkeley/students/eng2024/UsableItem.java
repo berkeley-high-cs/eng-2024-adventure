@@ -15,8 +15,9 @@ public interface UsableItem extends Item {
     }
 
     public default List<String> allNames() {
-        ArrayList<String> names = new ArrayList<>(abbreviations());  
+        ArrayList<String> names = new ArrayList<>(abbreviations());
         names.add(name());
         return names;
     }
+
 }

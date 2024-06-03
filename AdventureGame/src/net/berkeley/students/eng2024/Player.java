@@ -8,6 +8,7 @@ public class Player implements Living {
     private Room currentRoom;
     private double hitpoints;
     public final double maxHitpoints = 100;
+
     private ArrayList<Item> items;
     private ArrayList<Effect> effects;
     private static final int MAX_ROOM_MEMORY = 10; //maximum amount of rooms and passages you can consecutively go back through

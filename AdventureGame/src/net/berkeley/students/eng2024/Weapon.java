@@ -38,8 +38,14 @@ public class Weapon implements Item {
     public void pickup(Player p) {
         p.pickupItem(this);
     }
+
+    
+    public boolean isIntelligent() {
+        return false;
+    }
     //Weapons
     public static Weapon BRONZE_DAGGER = new Weapon(1, "bronze dagger", "Straight to the point.");
+
     public static Weapon MAGIC_SWORD = new Weapon(5, "magic sword", "quest item requested from the princess.");
     //Idk how strong you guys want the sword to be
 }

@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class FoodItem implements UsableItem{
-    
+
     private String name;
     private List<String> abbreviations;
     private String description;
@@ -23,6 +23,9 @@ public class FoodItem implements UsableItem{
         this.usageFlavorText = usageFlavorText;
         this.abbreviations = abbreviations;
     }
+
+    public boolean isIntelligent() { return false; }
+
     public String name() {
         return name;
     }
@@ -52,7 +55,7 @@ public class FoodItem implements UsableItem{
             p.addEffect(effect);
         }
         p.changeHitpoints(healthChange);
-        
+
         AdventureGame.notify("notice",s);
         if (usageFlavorText.length() > 0) {
             AdventureGame.notify("info",usageFlavorText);
